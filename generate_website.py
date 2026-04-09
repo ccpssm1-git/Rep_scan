@@ -115,8 +115,7 @@ html = """<!DOCTYPE html>
     <nav class="fixed top-0 w-full z-50 glass-panel border-b border-gray-100 transition-all duration-300">
         <div class="container mx-auto px-6 h-20 flex items-center justify-between">
             <div class="flex items-center gap-2 cursor-pointer">
-                <i data-lucide="shield-check" class="text-blue-600 w-8 h-8"></i>
-                <span class="font-heading font-bold text-2xl tracking-tight text-slate-900">RepScan.<span class="text-blue-600">ai</span></span>
+                <img src="logo.png" alt="RepScan.ai Logo" class="h-10 w-auto object-contain">
             </div>
             <div class="hidden md:flex items-center gap-8 text-sm font-medium text-slate-600">
                 <a href="#problem" class="hover:text-blue-600 transition-colors">The Risk</a>
@@ -619,8 +618,7 @@ html += """
         <div class="container mx-auto px-6 grid md:grid-cols-12 gap-12 lg:gap-8 mb-16 max-w-7xl">
             <div class="md:col-span-5 lg:col-span-4">
                  <div class="flex items-center gap-2 mb-6 cursor-pointer group w-max">
-                    <i data-lucide="shield-check" class="text-blue-600 w-8 h-8 group-hover:scale-110 transition-transform"></i>
-                    <span class="font-heading font-bold text-2xl tracking-tight text-slate-900">RepScan.<span class="text-blue-600">ai</span></span>
+                    <img src="logo.png" alt="RepScan.ai Logo" class="h-10 w-auto object-contain group-hover:scale-105 transition-transform">
                 </div>
                 <p class="text-sm mb-8 max-w-xs leading-relaxed font-medium">Reputation isn't PR. It's Cybersecurity.<br>The internet doesn't wait. Neither should you.</p>
                 <div class="flex gap-3">
