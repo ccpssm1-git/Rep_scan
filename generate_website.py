@@ -31,9 +31,9 @@ comp_rows = [
 ]
 
 use_cases = [
-    {"title": "FOUNDERS & CEOs", "chal": "Your personal brand = company value. One tweet can tank valuation.", "imp": "My reputation is my moat. RepScan protects my moat."},
+    {"title": "FOUNDERS & CEOs", "chal": "Your personal brand = company value. One tweet can tank valuation.", "imp": "My reputation is my moat. RepGuard protects my moat."},
     {"title": "ENTERPRISE BRANDS", "chal": "Distributed risk. One employee mistake = global crisis.", "imp": "One platform. Company-wide protection. Crises prevented."},
-    {"title": "PUBLIC FIGURES", "chal": "Every word analyzed. Coordinated attacks. Reputation = career.", "imp": "My career depends on my reputation. RepScan protects it."},
+    {"title": "PUBLIC FIGURES", "chal": "Every word analyzed. Coordinated attacks. Reputation = career.", "imp": "My career depends on my reputation. RepGuard protects it."},
     {"title": "AGENCIES & PR FIRMS", "chal": "Protecting multiple clients. Need proactive protection to show value.", "imp": "We went from reacting to preventing. Client retention skyrocketed."}
 ]
 
@@ -42,7 +42,7 @@ html = """<!DOCTYPE html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RepScan.ai | Reputation Isn't PR. It's Cybersecurity.</title>
+    <title>RepGuard.ai | Reputation Isn't PR. It's Cybersecurity.</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
@@ -115,7 +115,7 @@ html = """<!DOCTYPE html>
     <nav class="fixed top-0 w-full z-50 glass-panel border-b border-gray-100 transition-all duration-300">
         <div class="container mx-auto px-6 h-20 flex items-center justify-between">
             <div class="flex items-center gap-2 cursor-pointer">
-                <img src="logo.png" alt="RepScan.ai Logo" class="h-10 w-auto object-contain">
+                <img src="logo.png" alt="RepGuard.ai Logo" class="h-10 w-auto object-contain">
             </div>
             <div class="hidden md:flex items-center gap-8 text-sm font-medium text-slate-600">
                 <a href="#problem" class="hover:text-blue-600 transition-colors">The Risk</a>
@@ -295,7 +295,7 @@ html += """
                         </div>
                         <div class="hidden md:block w-px h-12 bg-white/20"></div>
                         <div class="text-center md:text-left">
-                           <div class="font-bold text-blue-400 uppercase tracking-widest text-xs mb-1">RepScan</div>
+                           <div class="font-bold text-blue-400 uppercase tracking-widest text-xs mb-1">RepGuard</div>
                            <div class="font-heading text-lg font-bold text-white">Defense is <span class="text-blue-400">active.</span></div>
                         </div>
                     </div>
@@ -312,11 +312,11 @@ html += """
         <div class="container mx-auto px-6 relative z-10">
             <div class="text-center mb-20 max-w-4xl mx-auto">
                 <span class="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-blue-200 bg-white shadow-sm text-blue-600 text-[10px] font-bold uppercase tracking-[0.2em] mb-8">
-                    <i data-lucide="shield-check" class="w-4 h-4"></i> Meet RepScan
+                    <i data-lucide="shield-check" class="w-4 h-4"></i> Meet RepGuard
                 </span>
                 <h2 class="font-heading text-4xl md:text-6xl font-bold text-slate-900 mb-6 tracking-tight">Reputation Isn't PR. <br/><span class="text-blue-600">It's Cybersecurity.</span></h2>
                 <p class="text-xl text-slate-600 max-w-3xl mx-auto leading-relaxed font-medium mb-8">
-                    We don't manage reputation after crises. We prevent crises before they start. RepScan is a <strong class="text-slate-900">Reputation Defense Platform</strong>. Real-time. Automated. Strategic.
+                    We don't manage reputation after crises. We prevent crises before they start. RepGuard is a <strong class="text-slate-900">Reputation Defense Platform</strong>. Real-time. Automated. Strategic.
                 </p>
             </div>
 
@@ -408,7 +408,7 @@ html += """
                             <div class="w-3 h-3 rounded-full bg-slate-300 group-hover:bg-green-400 transition-colors"></div>
                         </div>
                         <div class="text-xs font-mono text-slate-400 font-bold tracking-widest uppercase flex items-center gap-2">
-                            <span class="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse inline-block"></span> RepScan Active Defense Demo
+                            <span class="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse inline-block"></span> RepGuard Active Defense Demo
                         </div>
                     </div>
                     
@@ -451,7 +451,7 @@ html += """
     <section id="comparison" class="py-24 bg-slate-50 border-y border-slate-200">
         <div class="container mx-auto px-6 max-w-6xl">
             <div class="text-center mb-16">
-                <h2 class="font-heading text-4xl md:text-6xl font-bold text-slate-900 mb-6 tracking-tight">RepScan vs The Competition</h2>
+                <h2 class="font-heading text-4xl md:text-6xl font-bold text-slate-900 mb-6 tracking-tight">RepGuard vs The Competition</h2>
                 <p class="text-xl text-slate-600 font-medium">Why wait for a report when we can prevent the crisis?</p>
             </div>
             
@@ -463,7 +463,7 @@ html += """
                                 <th class="py-8 px-6 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] w-1/4 border-r border-slate-100">Differentiator</th>
                                 <th class="py-8 px-6 text-xs font-bold text-slate-600 uppercase tracking-widest w-1/4 text-center border-r border-slate-100">Traditional ORM</th>
                                 <th class="py-8 px-6 text-xs font-bold text-slate-600 uppercase tracking-widest w-1/4 text-center border-r border-slate-100">Modern SaaS</th>
-                                <th class="py-8 px-6 text-sm font-black text-blue-700 uppercase tracking-widest w-1/4 text-center bg-blue-50/50">RepScan</th>
+                                <th class="py-8 px-6 text-sm font-black text-blue-700 uppercase tracking-widest w-1/4 text-center bg-blue-50/50">RepGuard</th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-slate-100">
@@ -487,7 +487,7 @@ html += """
                     <div class="text-left max-w-xl">
                         <div class="inline-flex items-center gap-2 px-3 py-1 rounded bg-blue-900/50 text-blue-300 text-[10px] font-bold uppercase tracking-widest mb-4 border border-blue-400/20">The Real Difference</div>
                         <h3 class="font-heading text-2xl md:text-3xl font-bold text-white mb-2 tracking-tight">You have a problem.</h3>
-                        <p class="text-slate-400 font-medium leading-relaxed">Traditional ORM sends you a report in 48 hours. By then, it's a crisis.<br>With RepScan: Detected in 0.5s. Analyzed in 2s. Neutralized before spread.</p>
+                        <p class="text-slate-400 font-medium leading-relaxed">Traditional ORM sends you a report in 48 hours. By then, it's a crisis.<br>With RepGuard: Detected in 0.5s. Analyzed in 2s. Neutralized before spread.</p>
                     </div>
                     <div class="flex flex-col sm:flex-row gap-4 shrink-0">
                         <button class="px-8 py-4 bg-blue-600 border border-blue-500 text-white font-bold rounded-xl hover:bg-blue-500 transition-all shadow-lg hover:shadow-blue-500/50 card-3d">Try It Yourself</button>
@@ -543,7 +543,7 @@ html += """
     <section class="py-24 bg-blue-50 border-y border-blue-100 overflow-hidden">
         <div class="container mx-auto px-6 max-w-6xl relative">
             <div class="text-center mb-16">
-                 <h2 class="font-heading text-3xl font-bold text-slate-900 tracking-tight">Brands Trust RepScan</h2>
+                 <h2 class="font-heading text-3xl font-bold text-slate-900 tracking-tight">Brands Trust RepGuard</h2>
             </div>
             <div class="grid md:grid-cols-3 gap-6 mb-20 lg:-mx-20">
                 <div class="text-center card-3d bg-white p-10 rounded-[2rem] border border-blue-100 shadow-xl hover:border-blue-300 transition-colors group">
@@ -574,7 +574,7 @@ html += """
                             <div class="text-[10px] uppercase tracking-widest text-slate-500 font-bold">Global Tech Enterprise</div>
                         </div>
                     </div>
-                    <p class="text-slate-700 font-medium leading-relaxed italic text-lg">"We prevented a $50M PR disaster using RepScan. One crisis detected, one response approved, one problem solved before it was even public. That's the difference between legacy and innovation."</p>
+                    <p class="text-slate-700 font-medium leading-relaxed italic text-lg">"We prevented a $50M PR disaster using RepGuard. One crisis detected, one response approved, one problem solved before it was even public. That's the difference between legacy and innovation."</p>
                 </div>
                 <div class="bg-white p-10 rounded-[2.5rem] border border-slate-200 shadow-lg card-3d relative">
                     <div class="absolute top-8 right-8 w-12 h-12 bg-slate-50 flex items-center justify-center rounded-full border border-slate-100"><i data-lucide="quote" class="w-5 h-5 text-blue-400"></i></div>
@@ -618,7 +618,7 @@ html += """
         <div class="container mx-auto px-6 grid md:grid-cols-12 gap-12 lg:gap-8 mb-16 max-w-7xl">
             <div class="md:col-span-5 lg:col-span-4">
                  <div class="flex items-center gap-2 mb-6 cursor-pointer group w-max">
-                    <img src="logo.png" alt="RepScan.ai Logo" class="h-10 w-auto object-contain group-hover:scale-105 transition-transform">
+                    <img src="logo.png" alt="RepGuard.ai Logo" class="h-10 w-auto object-contain group-hover:scale-105 transition-transform">
                 </div>
                 <p class="text-sm mb-8 max-w-xs leading-relaxed font-medium">Reputation isn't PR. It's Cybersecurity.<br>The internet doesn't wait. Neither should you.</p>
                 <div class="flex gap-3">
@@ -640,7 +640,7 @@ html += """
                 <div>
                     <h4 class="font-bold text-slate-900 mb-6 uppercase tracking-[0.15em] text-[10px]">Company</h4>
                     <ul class="space-y-4 text-sm font-semibold text-slate-500">
-                        <li><a href="#" class="hover:text-blue-600 transition-colors flex items-center gap-1 w-max"><i data-lucide="chevron-right" class="w-3 h-3 text-slate-300"></i> About RepScan</a></li>
+                        <li><a href="#" class="hover:text-blue-600 transition-colors flex items-center gap-1 w-max"><i data-lucide="chevron-right" class="w-3 h-3 text-slate-300"></i> About RepGuard</a></li>
                         <li><a href="#" class="hover:text-blue-600 transition-colors flex items-center gap-1 w-max"><i data-lucide="chevron-right" class="w-3 h-3 text-slate-300"></i> Case Studies</a></li>
                         <li><a href="#" class="hover:text-blue-600 transition-colors flex items-center gap-1 w-max"><i data-lucide="chevron-right" class="w-3 h-3 text-slate-300"></i> Security</a></li>
                         <li><a href="#" class="hover:text-blue-600 transition-colors flex items-center gap-1 w-max"><i data-lucide="chevron-right" class="w-3 h-3 text-slate-300"></i> Trust Center</a></li>
@@ -649,7 +649,7 @@ html += """
                 <div class="col-span-2 md:col-span-1">
                     <h4 class="font-bold text-slate-900 mb-6 uppercase tracking-[0.15em] text-[10px]">Contact & Support</h4>
                     <ul class="space-y-4 text-sm font-semibold text-slate-500">
-                        <li><a href="mailto:info@repscan.ai" class="hover:text-blue-600 transition-colors text-blue-600 flex items-center gap-2 w-max bg-blue-50 px-3 py-1.5 rounded-lg border border-blue-100"><i data-lucide="mail" class="w-3 h-3"></i> info@repscan.ai</a></li>
+                        <li><a href="mailto:info@repguard.ai" class="hover:text-blue-600 transition-colors text-blue-600 flex items-center gap-2 w-max bg-blue-50 px-3 py-1.5 rounded-lg border border-blue-100"><i data-lucide="mail" class="w-3 h-3"></i> info@repguard.ai</a></li>
                         <li><a href="#" class="hover:text-blue-600 transition-colors flex items-center gap-2 w-max border border-slate-200 px-3 py-1.5 rounded-lg shadow-sm"><i data-lucide="calendar" class="w-3 h-3"></i> Schedule Demo</a></li>
                         <li><a href="#" class="hover:text-blue-600 transition-colors flex items-center gap-2 w-max"><i data-lucide="headset" class="w-3 h-3"></i> 24/7 SOC Support</a></li>
                     </ul>
@@ -661,7 +661,7 @@ html += """
                 <span class="w-2 h-2 rounded-full bg-green-500 block"></span> Systems Operational
             </div>
             <p class="text-xs font-semibold text-slate-400 tracking-wide text-center md:text-left mb-4 md:mb-0">
-                &copy; 2026 RepScan.ai. All rights reserved.
+                &copy; 2026 RepGuard.ai. All rights reserved.
             </p>
             <div class="flex items-center gap-6 text-xs font-semibold text-slate-400">
                 <a href="#" class="hover:text-slate-900 transition-colors">Terms of Service</a>
@@ -803,4 +803,4 @@ html += """
 with open("index.html", "w", encoding="utf-8") as f:
     f.write(html)
 
-print("Successfully generated complete RepScan storyline in index.html!")
+print("Successfully generated complete RepGuard storyline in index.html!")
