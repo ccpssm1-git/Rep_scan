@@ -1,4 +1,43 @@
-<!DOCTYPE html>
+import json
+import os
+
+case_studies = [
+  { "name": "KANYE WEST", "loss": "$1.5 Billion", "what": "One narrative shift", "time": "Within weeks", "lesson": "One public statement. One brand partnership gone. Billions erased.", "icon": "alert-triangle" },
+  { "name": "FACEBOOK", "loss": "$100+ Billion", "what": "Data breach + trust collapse", "time": "Days to market impact", "lesson": "Data trust = brand value. Lose it, lose billions.", "icon": "shield-alert" },
+  { "name": "BOEING", "loss": "$60+ Billion", "what": "Safety reputation destroyed", "time": "Accelerated after second crash", "lesson": "Reputation failure can shut down entire product lines.", "icon": "plane" },
+  { "name": "VOLKSWAGEN", "loss": "€25-30 Billion", "what": "Environmental trust shattered", "time": "Within weeks of discovery", "lesson": "One hidden issue → global trust collapse → billions erased.", "icon": "car" },
+  { "name": "MAGGI (India)", "loss": "₹450+ Crore", "what": "Food safety concerns", "time": "Ban lasted months", "lesson": "Local reputation issues go global instantly.", "icon": "utensils" },
+  { "name": "JOHNNY DEPP", "loss": "Major Franchises", "what": "Allegations + online backlash", "time": "Career stalled for years", "lesson": "Allegations + online sentiment can freeze even global icons.", "icon": "film" },
+  { "name": "KEVIN SPACEY", "loss": "$39M+", "what": "Reputation collapse", "time": "Immediate removal", "lesson": "Reputation collapse can mean total market exit.", "icon": "user-x" },
+  { "name": "DAVID WARNER", "loss": "Captaincy", "what": "1-year cricket ban", "time": "Immediate suspension", "lesson": "Trust loss directly impacts leadership value.", "icon": "activity" },
+  { "name": "WILL SMITH", "loss": "Tens of Millions", "what": "Oscars stage incident", "time": "Immediate", "lesson": "A single live moment can trigger long-term brand penalties.", "icon": "video" },
+  { "name": "UBER", "loss": "Valuation", "what": "Leadership scandals", "time": "Weeks", "lesson": "Viral sentiment directly impacts user base and revenue.", "icon": "car-taxi-front" }
+]
+
+failures = [
+  { "title": "LATE RESPONSE", "prob": "Traditional ORM tools detect threats 24-48 hours later. By then: Crisis is viral, news picked it up, AI summarized it, search poisoned.", "cost": "Every hour you wait costs millions." },
+  { "title": "NO REAL-TIME DETECTION", "prob": "Manual monitoring = blind spots. They track yesterday's mentions, miss emerging threats, AI content goes undetected.", "cost": "You don't see the threat until it's unstoppable." },
+  { "title": "NO ACTIVE DEFENSE", "prob": "They report damage. They don't prevent it. No automated playbooks, no threat mitigation, reactiveness looks like damage control.", "cost": "Reactive = defeated." }
+]
+
+comp_rows = [
+  { "f": "Detection Speed", "a": "24-48 hours", "b": "6-12 hours", "c": "Real-time (seconds)", "h": True },
+  { "f": "Response Type", "a": "Monthly reports", "b": "Alerts only", "c": "Active automated defense", "h": False },
+  { "f": "AI Analysis", "a": "None", "b": "Basic sentiment", "c": "Predicts risk & financial impact", "h": False },
+  { "f": "Real-Time Dashboard", "a": "No", "b": "Limited", "c": "Yes, full visibility", "h": False },
+  { "f": "Automated Response", "a": "No", "b": "No", "c": "Yes, with approval", "h": False },
+  { "f": "Threat Prediction", "a": "No", "b": "No", "c": "Yes, viral probability", "h": False },
+  { "f": "Positioning", "a": "ORM tool", "b": "Monitoring SaaS", "c": "Security platform", "h": False }
+]
+
+use_cases = [
+    {"title": "FOUNDERS & CEOs", "chal": "Your personal brand = company value. One tweet can tank valuation.", "imp": "My reputation is my moat. RepScan protects my moat."},
+    {"title": "ENTERPRISE BRANDS", "chal": "Distributed risk. One employee mistake = global crisis.", "imp": "One platform. Company-wide protection. Crises prevented."},
+    {"title": "PUBLIC FIGURES", "chal": "Every word analyzed. Coordinated attacks. Reputation = career.", "imp": "My career depends on my reputation. RepScan protects it."},
+    {"title": "AGENCIES & PR FIRMS", "chal": "Protecting multiple clients. Need proactive protection to show value.", "imp": "We went from reacting to preventing. Client retention skyrocketed."}
+]
+
+html = """<!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
@@ -164,7 +203,9 @@
             </div>
         </div>
     </section>
+"""
 
+html += """
     <!-- 2. PROBLEM SECTION -->
     <section id="problem" class="py-24 bg-slate-50 border-y border-slate-200 relative overflow-hidden">
         <div class="container mx-auto px-6 z-10 relative">
@@ -175,227 +216,34 @@
             </div>
             
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 max-w-7xl mx-auto">
+"""
 
+for c in case_studies:
+    html += f"""
                 <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm hover:shadow-xl transition-all card-3d flex flex-col h-full group">
                     <div class="flex items-center justify-between mb-4 pb-4 border-b border-slate-100">
-                        <h3 class="font-heading font-black tracking-tight text-lg text-slate-900 uppercase">KANYE WEST</h3>
+                        <h3 class="font-heading font-black tracking-tight text-lg text-slate-900 uppercase">{c['name']}</h3>
                         <div class="bg-red-50 text-red-600 p-2 rounded-xl group-hover:bg-red-600 group-hover:text-white transition-colors duration-300">
-                            <i data-lucide="alert-triangle" class="w-4 h-4"></i>
+                            <i data-lucide="{c['icon']}" class="w-4 h-4"></i>
                         </div>
                     </div>
                     <div class="mb-4">
                         <div class="text-[10px] text-slate-400 uppercase tracking-[0.2em] font-bold mb-1">Financial Impact</div>
-                        <div class="text-2xl font-black tracking-tighter text-red-500">$1.5 Billion</div>
+                        <div class="text-2xl font-black tracking-tighter text-red-500">{c['loss']}</div>
                     </div>
                     <div class="space-y-3 mb-6 flex-grow">
                         <div>
                             <div class="text-[10px] font-bold tracking-wider text-slate-400 uppercase mb-1 flex items-center gap-1"><i data-lucide="zap" class="w-3 h-3"></i> What Happened</div>
-                            <div class="text-xs font-semibold text-slate-800 leading-snug">One narrative shift</div>
+                            <div class="text-xs font-semibold text-slate-800 leading-snug">{c['what']}</div>
                         </div>
                     </div>
                     <div class="bg-slate-50 p-3 rounded-lg mt-auto border border-slate-100">
-                        <div class="text-[10px] text-slate-600 italic font-medium">"One public statement. One brand partnership gone. Billions erased."</div>
+                        <div class="text-[10px] text-slate-600 italic font-medium">"{c['lesson']}"</div>
                     </div>
                 </div>
+"""
 
-                <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm hover:shadow-xl transition-all card-3d flex flex-col h-full group">
-                    <div class="flex items-center justify-between mb-4 pb-4 border-b border-slate-100">
-                        <h3 class="font-heading font-black tracking-tight text-lg text-slate-900 uppercase">FACEBOOK</h3>
-                        <div class="bg-red-50 text-red-600 p-2 rounded-xl group-hover:bg-red-600 group-hover:text-white transition-colors duration-300">
-                            <i data-lucide="shield-alert" class="w-4 h-4"></i>
-                        </div>
-                    </div>
-                    <div class="mb-4">
-                        <div class="text-[10px] text-slate-400 uppercase tracking-[0.2em] font-bold mb-1">Financial Impact</div>
-                        <div class="text-2xl font-black tracking-tighter text-red-500">$100+ Billion</div>
-                    </div>
-                    <div class="space-y-3 mb-6 flex-grow">
-                        <div>
-                            <div class="text-[10px] font-bold tracking-wider text-slate-400 uppercase mb-1 flex items-center gap-1"><i data-lucide="zap" class="w-3 h-3"></i> What Happened</div>
-                            <div class="text-xs font-semibold text-slate-800 leading-snug">Data breach + trust collapse</div>
-                        </div>
-                    </div>
-                    <div class="bg-slate-50 p-3 rounded-lg mt-auto border border-slate-100">
-                        <div class="text-[10px] text-slate-600 italic font-medium">"Data trust = brand value. Lose it, lose billions."</div>
-                    </div>
-                </div>
-
-                <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm hover:shadow-xl transition-all card-3d flex flex-col h-full group">
-                    <div class="flex items-center justify-between mb-4 pb-4 border-b border-slate-100">
-                        <h3 class="font-heading font-black tracking-tight text-lg text-slate-900 uppercase">BOEING</h3>
-                        <div class="bg-red-50 text-red-600 p-2 rounded-xl group-hover:bg-red-600 group-hover:text-white transition-colors duration-300">
-                            <i data-lucide="plane" class="w-4 h-4"></i>
-                        </div>
-                    </div>
-                    <div class="mb-4">
-                        <div class="text-[10px] text-slate-400 uppercase tracking-[0.2em] font-bold mb-1">Financial Impact</div>
-                        <div class="text-2xl font-black tracking-tighter text-red-500">$60+ Billion</div>
-                    </div>
-                    <div class="space-y-3 mb-6 flex-grow">
-                        <div>
-                            <div class="text-[10px] font-bold tracking-wider text-slate-400 uppercase mb-1 flex items-center gap-1"><i data-lucide="zap" class="w-3 h-3"></i> What Happened</div>
-                            <div class="text-xs font-semibold text-slate-800 leading-snug">Safety reputation destroyed</div>
-                        </div>
-                    </div>
-                    <div class="bg-slate-50 p-3 rounded-lg mt-auto border border-slate-100">
-                        <div class="text-[10px] text-slate-600 italic font-medium">"Reputation failure can shut down entire product lines."</div>
-                    </div>
-                </div>
-
-                <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm hover:shadow-xl transition-all card-3d flex flex-col h-full group">
-                    <div class="flex items-center justify-between mb-4 pb-4 border-b border-slate-100">
-                        <h3 class="font-heading font-black tracking-tight text-lg text-slate-900 uppercase">VOLKSWAGEN</h3>
-                        <div class="bg-red-50 text-red-600 p-2 rounded-xl group-hover:bg-red-600 group-hover:text-white transition-colors duration-300">
-                            <i data-lucide="car" class="w-4 h-4"></i>
-                        </div>
-                    </div>
-                    <div class="mb-4">
-                        <div class="text-[10px] text-slate-400 uppercase tracking-[0.2em] font-bold mb-1">Financial Impact</div>
-                        <div class="text-2xl font-black tracking-tighter text-red-500">€25-30 Billion</div>
-                    </div>
-                    <div class="space-y-3 mb-6 flex-grow">
-                        <div>
-                            <div class="text-[10px] font-bold tracking-wider text-slate-400 uppercase mb-1 flex items-center gap-1"><i data-lucide="zap" class="w-3 h-3"></i> What Happened</div>
-                            <div class="text-xs font-semibold text-slate-800 leading-snug">Environmental trust shattered</div>
-                        </div>
-                    </div>
-                    <div class="bg-slate-50 p-3 rounded-lg mt-auto border border-slate-100">
-                        <div class="text-[10px] text-slate-600 italic font-medium">"One hidden issue → global trust collapse → billions erased."</div>
-                    </div>
-                </div>
-
-                <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm hover:shadow-xl transition-all card-3d flex flex-col h-full group">
-                    <div class="flex items-center justify-between mb-4 pb-4 border-b border-slate-100">
-                        <h3 class="font-heading font-black tracking-tight text-lg text-slate-900 uppercase">MAGGI (India)</h3>
-                        <div class="bg-red-50 text-red-600 p-2 rounded-xl group-hover:bg-red-600 group-hover:text-white transition-colors duration-300">
-                            <i data-lucide="utensils" class="w-4 h-4"></i>
-                        </div>
-                    </div>
-                    <div class="mb-4">
-                        <div class="text-[10px] text-slate-400 uppercase tracking-[0.2em] font-bold mb-1">Financial Impact</div>
-                        <div class="text-2xl font-black tracking-tighter text-red-500">₹450+ Crore</div>
-                    </div>
-                    <div class="space-y-3 mb-6 flex-grow">
-                        <div>
-                            <div class="text-[10px] font-bold tracking-wider text-slate-400 uppercase mb-1 flex items-center gap-1"><i data-lucide="zap" class="w-3 h-3"></i> What Happened</div>
-                            <div class="text-xs font-semibold text-slate-800 leading-snug">Food safety concerns</div>
-                        </div>
-                    </div>
-                    <div class="bg-slate-50 p-3 rounded-lg mt-auto border border-slate-100">
-                        <div class="text-[10px] text-slate-600 italic font-medium">"Local reputation issues go global instantly."</div>
-                    </div>
-                </div>
-
-                <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm hover:shadow-xl transition-all card-3d flex flex-col h-full group">
-                    <div class="flex items-center justify-between mb-4 pb-4 border-b border-slate-100">
-                        <h3 class="font-heading font-black tracking-tight text-lg text-slate-900 uppercase">JOHNNY DEPP</h3>
-                        <div class="bg-red-50 text-red-600 p-2 rounded-xl group-hover:bg-red-600 group-hover:text-white transition-colors duration-300">
-                            <i data-lucide="film" class="w-4 h-4"></i>
-                        </div>
-                    </div>
-                    <div class="mb-4">
-                        <div class="text-[10px] text-slate-400 uppercase tracking-[0.2em] font-bold mb-1">Financial Impact</div>
-                        <div class="text-2xl font-black tracking-tighter text-red-500">Major Franchises</div>
-                    </div>
-                    <div class="space-y-3 mb-6 flex-grow">
-                        <div>
-                            <div class="text-[10px] font-bold tracking-wider text-slate-400 uppercase mb-1 flex items-center gap-1"><i data-lucide="zap" class="w-3 h-3"></i> What Happened</div>
-                            <div class="text-xs font-semibold text-slate-800 leading-snug">Allegations + online backlash</div>
-                        </div>
-                    </div>
-                    <div class="bg-slate-50 p-3 rounded-lg mt-auto border border-slate-100">
-                        <div class="text-[10px] text-slate-600 italic font-medium">"Allegations + online sentiment can freeze even global icons."</div>
-                    </div>
-                </div>
-
-                <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm hover:shadow-xl transition-all card-3d flex flex-col h-full group">
-                    <div class="flex items-center justify-between mb-4 pb-4 border-b border-slate-100">
-                        <h3 class="font-heading font-black tracking-tight text-lg text-slate-900 uppercase">KEVIN SPACEY</h3>
-                        <div class="bg-red-50 text-red-600 p-2 rounded-xl group-hover:bg-red-600 group-hover:text-white transition-colors duration-300">
-                            <i data-lucide="user-x" class="w-4 h-4"></i>
-                        </div>
-                    </div>
-                    <div class="mb-4">
-                        <div class="text-[10px] text-slate-400 uppercase tracking-[0.2em] font-bold mb-1">Financial Impact</div>
-                        <div class="text-2xl font-black tracking-tighter text-red-500">$39M+</div>
-                    </div>
-                    <div class="space-y-3 mb-6 flex-grow">
-                        <div>
-                            <div class="text-[10px] font-bold tracking-wider text-slate-400 uppercase mb-1 flex items-center gap-1"><i data-lucide="zap" class="w-3 h-3"></i> What Happened</div>
-                            <div class="text-xs font-semibold text-slate-800 leading-snug">Reputation collapse</div>
-                        </div>
-                    </div>
-                    <div class="bg-slate-50 p-3 rounded-lg mt-auto border border-slate-100">
-                        <div class="text-[10px] text-slate-600 italic font-medium">"Reputation collapse can mean total market exit."</div>
-                    </div>
-                </div>
-
-                <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm hover:shadow-xl transition-all card-3d flex flex-col h-full group">
-                    <div class="flex items-center justify-between mb-4 pb-4 border-b border-slate-100">
-                        <h3 class="font-heading font-black tracking-tight text-lg text-slate-900 uppercase">DAVID WARNER</h3>
-                        <div class="bg-red-50 text-red-600 p-2 rounded-xl group-hover:bg-red-600 group-hover:text-white transition-colors duration-300">
-                            <i data-lucide="activity" class="w-4 h-4"></i>
-                        </div>
-                    </div>
-                    <div class="mb-4">
-                        <div class="text-[10px] text-slate-400 uppercase tracking-[0.2em] font-bold mb-1">Financial Impact</div>
-                        <div class="text-2xl font-black tracking-tighter text-red-500">Captaincy</div>
-                    </div>
-                    <div class="space-y-3 mb-6 flex-grow">
-                        <div>
-                            <div class="text-[10px] font-bold tracking-wider text-slate-400 uppercase mb-1 flex items-center gap-1"><i data-lucide="zap" class="w-3 h-3"></i> What Happened</div>
-                            <div class="text-xs font-semibold text-slate-800 leading-snug">1-year cricket ban</div>
-                        </div>
-                    </div>
-                    <div class="bg-slate-50 p-3 rounded-lg mt-auto border border-slate-100">
-                        <div class="text-[10px] text-slate-600 italic font-medium">"Trust loss directly impacts leadership value."</div>
-                    </div>
-                </div>
-
-                <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm hover:shadow-xl transition-all card-3d flex flex-col h-full group">
-                    <div class="flex items-center justify-between mb-4 pb-4 border-b border-slate-100">
-                        <h3 class="font-heading font-black tracking-tight text-lg text-slate-900 uppercase">WILL SMITH</h3>
-                        <div class="bg-red-50 text-red-600 p-2 rounded-xl group-hover:bg-red-600 group-hover:text-white transition-colors duration-300">
-                            <i data-lucide="video" class="w-4 h-4"></i>
-                        </div>
-                    </div>
-                    <div class="mb-4">
-                        <div class="text-[10px] text-slate-400 uppercase tracking-[0.2em] font-bold mb-1">Financial Impact</div>
-                        <div class="text-2xl font-black tracking-tighter text-red-500">Tens of Millions</div>
-                    </div>
-                    <div class="space-y-3 mb-6 flex-grow">
-                        <div>
-                            <div class="text-[10px] font-bold tracking-wider text-slate-400 uppercase mb-1 flex items-center gap-1"><i data-lucide="zap" class="w-3 h-3"></i> What Happened</div>
-                            <div class="text-xs font-semibold text-slate-800 leading-snug">Oscars stage incident</div>
-                        </div>
-                    </div>
-                    <div class="bg-slate-50 p-3 rounded-lg mt-auto border border-slate-100">
-                        <div class="text-[10px] text-slate-600 italic font-medium">"A single live moment can trigger long-term brand penalties."</div>
-                    </div>
-                </div>
-
-                <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm hover:shadow-xl transition-all card-3d flex flex-col h-full group">
-                    <div class="flex items-center justify-between mb-4 pb-4 border-b border-slate-100">
-                        <h3 class="font-heading font-black tracking-tight text-lg text-slate-900 uppercase">UBER</h3>
-                        <div class="bg-red-50 text-red-600 p-2 rounded-xl group-hover:bg-red-600 group-hover:text-white transition-colors duration-300">
-                            <i data-lucide="car-taxi-front" class="w-4 h-4"></i>
-                        </div>
-                    </div>
-                    <div class="mb-4">
-                        <div class="text-[10px] text-slate-400 uppercase tracking-[0.2em] font-bold mb-1">Financial Impact</div>
-                        <div class="text-2xl font-black tracking-tighter text-red-500">Valuation</div>
-                    </div>
-                    <div class="space-y-3 mb-6 flex-grow">
-                        <div>
-                            <div class="text-[10px] font-bold tracking-wider text-slate-400 uppercase mb-1 flex items-center gap-1"><i data-lucide="zap" class="w-3 h-3"></i> What Happened</div>
-                            <div class="text-xs font-semibold text-slate-800 leading-snug">Leadership scandals</div>
-                        </div>
-                    </div>
-                    <div class="bg-slate-50 p-3 rounded-lg mt-auto border border-slate-100">
-                        <div class="text-[10px] text-slate-600 italic font-medium">"Viral sentiment directly impacts user base and revenue."</div>
-                    </div>
-                </div>
-
+html += """
             </div>
 
             <div class="mt-20 text-center max-w-4xl mx-auto glass-panel p-10 md:p-14 rounded-[2rem] border border-blue-100 shadow-xl relative overflow-hidden card-3d">
@@ -405,7 +253,9 @@
             </div>
         </div>
     </section>
+"""
 
+html += """
     <!-- 3. THE GAP -->
     <section class="py-24 bg-white relative">
         <div class="container mx-auto px-6">
@@ -416,46 +266,25 @@
             </div>
             
             <div class="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+"""
 
+for i, f in enumerate(failures):
+    html += f"""
                 <div class="card-3d bg-white border border-slate-200 rounded-[2rem] p-8 md:p-10 relative overflow-hidden shadow-lg hover:shadow-xl hover:border-red-200 group">
                     <div class="absolute top-0 left-0 w-full h-1.5 bg-red-500 opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                    <div class="w-14 h-14 bg-red-50 rounded-2xl flex items-center justify-center text-red-500 mb-8 font-black text-2xl border border-red-100 shadow-sm">1</div>
+                    <div class="w-14 h-14 bg-red-50 rounded-2xl flex items-center justify-center text-red-500 mb-8 font-black text-2xl border border-red-100 shadow-sm">{i+1}</div>
                     <h3 class="font-heading text-xl font-bold text-slate-900 mb-4 flex items-center gap-3">
-                         LATE RESPONSE
+                         {f['title']}
                     </h3>
-                    <p class="text-slate-600 mb-8 text-sm md:text-base leading-relaxed font-medium">Traditional ORM tools detect threats 24-48 hours later. By then: Crisis is viral, news picked it up, AI summarized it, search poisoned.</p>
+                    <p class="text-slate-600 mb-8 text-sm md:text-base leading-relaxed font-medium">{f['prob']}</p>
                     <div class="mt-auto bg-red-50 p-4 rounded-xl border border-red-100 text-red-700 text-sm font-bold flex items-start gap-2">
                         <i data-lucide="alert-circle" class="w-5 h-5 shrink-0 mt-0.5"></i>
-                        <span>The Cost: Every hour you wait costs millions.</span>
+                        <span>The Cost: {f['cost']}</span>
                     </div>
                 </div>
+"""
 
-                <div class="card-3d bg-white border border-slate-200 rounded-[2rem] p-8 md:p-10 relative overflow-hidden shadow-lg hover:shadow-xl hover:border-red-200 group">
-                    <div class="absolute top-0 left-0 w-full h-1.5 bg-red-500 opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                    <div class="w-14 h-14 bg-red-50 rounded-2xl flex items-center justify-center text-red-500 mb-8 font-black text-2xl border border-red-100 shadow-sm">2</div>
-                    <h3 class="font-heading text-xl font-bold text-slate-900 mb-4 flex items-center gap-3">
-                         NO REAL-TIME DETECTION
-                    </h3>
-                    <p class="text-slate-600 mb-8 text-sm md:text-base leading-relaxed font-medium">Manual monitoring = blind spots. They track yesterday's mentions, miss emerging threats, AI content goes undetected.</p>
-                    <div class="mt-auto bg-red-50 p-4 rounded-xl border border-red-100 text-red-700 text-sm font-bold flex items-start gap-2">
-                        <i data-lucide="alert-circle" class="w-5 h-5 shrink-0 mt-0.5"></i>
-                        <span>The Cost: You don't see the threat until it's unstoppable.</span>
-                    </div>
-                </div>
-
-                <div class="card-3d bg-white border border-slate-200 rounded-[2rem] p-8 md:p-10 relative overflow-hidden shadow-lg hover:shadow-xl hover:border-red-200 group">
-                    <div class="absolute top-0 left-0 w-full h-1.5 bg-red-500 opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                    <div class="w-14 h-14 bg-red-50 rounded-2xl flex items-center justify-center text-red-500 mb-8 font-black text-2xl border border-red-100 shadow-sm">3</div>
-                    <h3 class="font-heading text-xl font-bold text-slate-900 mb-4 flex items-center gap-3">
-                         NO ACTIVE DEFENSE
-                    </h3>
-                    <p class="text-slate-600 mb-8 text-sm md:text-base leading-relaxed font-medium">They report damage. They don't prevent it. No automated playbooks, no threat mitigation, reactiveness looks like damage control.</p>
-                    <div class="mt-auto bg-red-50 p-4 rounded-xl border border-red-100 text-red-700 text-sm font-bold flex items-start gap-2">
-                        <i data-lucide="alert-circle" class="w-5 h-5 shrink-0 mt-0.5"></i>
-                        <span>The Cost: Reactive = defeated.</span>
-                    </div>
-                </div>
-
+html += """
             </div>
             
             <div class="mt-20 flex justify-center">
@@ -493,19 +322,29 @@
             </div>
 
             <div class="space-y-8 max-w-6xl mx-auto">
+"""
 
+pillars = [
+  {"title": "REAL-TIME DETECTION", "sub": "Spot Threats in Seconds, Not Days", "icon": "zap", "points": ["Monitor 100+ data sources simultaneously", "AI flags threats within seconds", "Zero blind spots before viral spread"], "metric": "If a negative post takes 1 hour to go viral normally, we catch it in 60 seconds."},
+  {"title": "INTELLIGENT ANALYSIS", "sub": "Understand Risk Before It Explodes", "icon": "brain", "points": ["AI predicts if it will go viral", "Estimates financial impact", "Identifies coordinated attacks"], "metric": "We accurately forecast the financial impact of sentiment collapse within a 90% confidence interval."},
+  {"title": "ACTIVE DEFENSE", "sub": "Neutralize Threats, Don't Just Report", "icon": "shield-check", "points": ["Automated response playbooks", "Content removal coordination", "Deploy counter-narratives automatically"], "metric": "Automatically suppress false claims, deploy counter-narrative, and alert legal teams."}
+]
+
+for i, p in enumerate(pillars):
+    pts_html = "".join([f'<li class="flex items-start gap-3"><div class="mt-1 w-5 h-5 rounded-full bg-green-100 flex items-center justify-center shrink-0"><i data-lucide="check" class="w-3 h-3 text-green-600"></i></div><span class="text-slate-700 font-medium">{pt}</span></li>' for pt in p['points']])
+    html += f"""
                 <div class="flex flex-col lg:flex-row items-center gap-10 bg-white p-8 md:p-12 rounded-[2.5rem] border border-slate-200 shadow-lg card-3d relative overflow-hidden group">
                     <div class="absolute top-0 right-0 w-64 h-64 bg-blue-50 rounded-bl-[100%] opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
                     <div class="w-24 h-24 shrink-0 rounded-2xl bg-gradient-to-br from-blue-50 to-blue-100/50 border border-blue-100 flex items-center justify-center text-blue-600 shadow-inner relative z-10">
-                        <i data-lucide="zap" class="w-10 h-10"></i>
+                        <i data-lucide="{p['icon']}" class="w-10 h-10"></i>
                     </div>
                     <div class="flex-grow relative z-10">
-                        <div class="text-blue-600 text-[10px] font-black uppercase tracking-[0.2em] mb-3">PILLAR 1</div>
-                        <h3 class="font-heading text-2xl md:text-3xl font-bold text-slate-900 mb-3 tracking-tight">REAL-TIME DETECTION</h3>
-                        <p class="text-slate-500 font-semibold mb-8 text-lg">"Spot Threats in Seconds, Not Days"</p>
+                        <div class="text-blue-600 text-[10px] font-black uppercase tracking-[0.2em] mb-3">PILLAR {i+1}</div>
+                        <h3 class="font-heading text-2xl md:text-3xl font-bold text-slate-900 mb-3 tracking-tight">{p['title']}</h3>
+                        <p class="text-slate-500 font-semibold mb-8 text-lg">"{p['sub']}"</p>
                         <div class="grid md:grid-cols-2 gap-4">
                             <ul class="space-y-4">
-                                <li class="flex items-start gap-3"><div class="mt-1 w-5 h-5 rounded-full bg-green-100 flex items-center justify-center shrink-0"><i data-lucide="check" class="w-3 h-3 text-green-600"></i></div><span class="text-slate-700 font-medium">Monitor 100+ data sources simultaneously</span></li><li class="flex items-start gap-3"><div class="mt-1 w-5 h-5 rounded-full bg-green-100 flex items-center justify-center shrink-0"><i data-lucide="check" class="w-3 h-3 text-green-600"></i></div><span class="text-slate-700 font-medium">AI flags threats within seconds</span></li><li class="flex items-start gap-3"><div class="mt-1 w-5 h-5 rounded-full bg-green-100 flex items-center justify-center shrink-0"><i data-lucide="check" class="w-3 h-3 text-green-600"></i></div><span class="text-slate-700 font-medium">Zero blind spots before viral spread</span></li>
+                                {pts_html}
                             </ul>
                         </div>
                     </div>
@@ -513,59 +352,13 @@
                         <div class="bg-slate-50 rounded-2xl p-6 md:p-8 border border-slate-100 shadow-sm hover:border-blue-200 transition-colors">
                             <i data-lucide="zap-fast" class="w-6 h-6 mb-4 text-blue-500"></i>
                             <div class="text-[10px] font-bold text-slate-400 tracking-[0.15em] uppercase mb-2">Real Impact</div>
-                            <p class="text-sm font-semibold text-slate-800 leading-relaxed">If a negative post takes 1 hour to go viral normally, we catch it in 60 seconds.</p>
+                            <p class="text-sm font-semibold text-slate-800 leading-relaxed">{p['metric']}</p>
                         </div>
                     </div>
                 </div>
+"""
 
-                <div class="flex flex-col lg:flex-row items-center gap-10 bg-white p-8 md:p-12 rounded-[2.5rem] border border-slate-200 shadow-lg card-3d relative overflow-hidden group">
-                    <div class="absolute top-0 right-0 w-64 h-64 bg-blue-50 rounded-bl-[100%] opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
-                    <div class="w-24 h-24 shrink-0 rounded-2xl bg-gradient-to-br from-blue-50 to-blue-100/50 border border-blue-100 flex items-center justify-center text-blue-600 shadow-inner relative z-10">
-                        <i data-lucide="brain" class="w-10 h-10"></i>
-                    </div>
-                    <div class="flex-grow relative z-10">
-                        <div class="text-blue-600 text-[10px] font-black uppercase tracking-[0.2em] mb-3">PILLAR 2</div>
-                        <h3 class="font-heading text-2xl md:text-3xl font-bold text-slate-900 mb-3 tracking-tight">INTELLIGENT ANALYSIS</h3>
-                        <p class="text-slate-500 font-semibold mb-8 text-lg">"Understand Risk Before It Explodes"</p>
-                        <div class="grid md:grid-cols-2 gap-4">
-                            <ul class="space-y-4">
-                                <li class="flex items-start gap-3"><div class="mt-1 w-5 h-5 rounded-full bg-green-100 flex items-center justify-center shrink-0"><i data-lucide="check" class="w-3 h-3 text-green-600"></i></div><span class="text-slate-700 font-medium">AI predicts if it will go viral</span></li><li class="flex items-start gap-3"><div class="mt-1 w-5 h-5 rounded-full bg-green-100 flex items-center justify-center shrink-0"><i data-lucide="check" class="w-3 h-3 text-green-600"></i></div><span class="text-slate-700 font-medium">Estimates financial impact</span></li><li class="flex items-start gap-3"><div class="mt-1 w-5 h-5 rounded-full bg-green-100 flex items-center justify-center shrink-0"><i data-lucide="check" class="w-3 h-3 text-green-600"></i></div><span class="text-slate-700 font-medium">Identifies coordinated attacks</span></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="w-full lg:w-1/3 mt-6 lg:mt-0 relative z-10">
-                        <div class="bg-slate-50 rounded-2xl p-6 md:p-8 border border-slate-100 shadow-sm hover:border-blue-200 transition-colors">
-                            <i data-lucide="zap-fast" class="w-6 h-6 mb-4 text-blue-500"></i>
-                            <div class="text-[10px] font-bold text-slate-400 tracking-[0.15em] uppercase mb-2">Real Impact</div>
-                            <p class="text-sm font-semibold text-slate-800 leading-relaxed">We accurately forecast the financial impact of sentiment collapse within a 90% confidence interval.</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="flex flex-col lg:flex-row items-center gap-10 bg-white p-8 md:p-12 rounded-[2.5rem] border border-slate-200 shadow-lg card-3d relative overflow-hidden group">
-                    <div class="absolute top-0 right-0 w-64 h-64 bg-blue-50 rounded-bl-[100%] opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
-                    <div class="w-24 h-24 shrink-0 rounded-2xl bg-gradient-to-br from-blue-50 to-blue-100/50 border border-blue-100 flex items-center justify-center text-blue-600 shadow-inner relative z-10">
-                        <i data-lucide="shield-check" class="w-10 h-10"></i>
-                    </div>
-                    <div class="flex-grow relative z-10">
-                        <div class="text-blue-600 text-[10px] font-black uppercase tracking-[0.2em] mb-3">PILLAR 3</div>
-                        <h3 class="font-heading text-2xl md:text-3xl font-bold text-slate-900 mb-3 tracking-tight">ACTIVE DEFENSE</h3>
-                        <p class="text-slate-500 font-semibold mb-8 text-lg">"Neutralize Threats, Don't Just Report"</p>
-                        <div class="grid md:grid-cols-2 gap-4">
-                            <ul class="space-y-4">
-                                <li class="flex items-start gap-3"><div class="mt-1 w-5 h-5 rounded-full bg-green-100 flex items-center justify-center shrink-0"><i data-lucide="check" class="w-3 h-3 text-green-600"></i></div><span class="text-slate-700 font-medium">Automated response playbooks</span></li><li class="flex items-start gap-3"><div class="mt-1 w-5 h-5 rounded-full bg-green-100 flex items-center justify-center shrink-0"><i data-lucide="check" class="w-3 h-3 text-green-600"></i></div><span class="text-slate-700 font-medium">Content removal coordination</span></li><li class="flex items-start gap-3"><div class="mt-1 w-5 h-5 rounded-full bg-green-100 flex items-center justify-center shrink-0"><i data-lucide="check" class="w-3 h-3 text-green-600"></i></div><span class="text-slate-700 font-medium">Deploy counter-narratives automatically</span></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="w-full lg:w-1/3 mt-6 lg:mt-0 relative z-10">
-                        <div class="bg-slate-50 rounded-2xl p-6 md:p-8 border border-slate-100 shadow-sm hover:border-blue-200 transition-colors">
-                            <i data-lucide="zap-fast" class="w-6 h-6 mb-4 text-blue-500"></i>
-                            <div class="text-[10px] font-bold text-slate-400 tracking-[0.15em] uppercase mb-2">Real Impact</div>
-                            <p class="text-sm font-semibold text-slate-800 leading-relaxed">Automatically suppress false claims, deploy counter-narrative, and alert legal teams.</p>
-                        </div>
-                    </div>
-                </div>
-
+html += """
             </div>
             
             <div class="mt-20 text-center">
@@ -675,56 +468,19 @@
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-slate-100">
+"""
 
-                            <tr class="hover:bg-slate-50 transition-colors bg-blue-50/30 font-bold">
-                                <td class="py-6 px-6 text-sm font-bold text-slate-900 border-r border-slate-100">Detection Speed</td>
-                                <td class="py-6 px-6 text-sm text-center font-medium text-slate-500 border-r border-slate-100">24-48 hours</td>
-                                <td class="py-6 px-6 text-sm text-center font-medium text-slate-500 border-r border-slate-100">6-12 hours</td>
-                                <td class="py-6 px-6 text-sm text-center font-black text-blue-700 bg-blue-50/20">Real-time (seconds)</td>
+for r in comp_rows:
+    html += f"""
+                            <tr class="hover:bg-slate-50 transition-colors {'bg-blue-50/30 font-bold' if r['h'] else ''}">
+                                <td class="py-6 px-6 text-sm font-bold {'text-slate-900' if r['h'] else 'text-slate-700'} border-r border-slate-100">{r['f']}</td>
+                                <td class="py-6 px-6 text-sm text-center font-medium text-slate-500 border-r border-slate-100">{r['a']}</td>
+                                <td class="py-6 px-6 text-sm text-center font-medium text-slate-500 border-r border-slate-100">{r['b']}</td>
+                                <td class="py-6 px-6 text-sm text-center font-black text-blue-700 bg-blue-50/20">{r['c']}</td>
                             </tr>
+"""
 
-                            <tr class="hover:bg-slate-50 transition-colors ">
-                                <td class="py-6 px-6 text-sm font-bold text-slate-700 border-r border-slate-100">Response Type</td>
-                                <td class="py-6 px-6 text-sm text-center font-medium text-slate-500 border-r border-slate-100">Monthly reports</td>
-                                <td class="py-6 px-6 text-sm text-center font-medium text-slate-500 border-r border-slate-100">Alerts only</td>
-                                <td class="py-6 px-6 text-sm text-center font-black text-blue-700 bg-blue-50/20">Active automated defense</td>
-                            </tr>
-
-                            <tr class="hover:bg-slate-50 transition-colors ">
-                                <td class="py-6 px-6 text-sm font-bold text-slate-700 border-r border-slate-100">AI Analysis</td>
-                                <td class="py-6 px-6 text-sm text-center font-medium text-slate-500 border-r border-slate-100">None</td>
-                                <td class="py-6 px-6 text-sm text-center font-medium text-slate-500 border-r border-slate-100">Basic sentiment</td>
-                                <td class="py-6 px-6 text-sm text-center font-black text-blue-700 bg-blue-50/20">Predicts risk & financial impact</td>
-                            </tr>
-
-                            <tr class="hover:bg-slate-50 transition-colors ">
-                                <td class="py-6 px-6 text-sm font-bold text-slate-700 border-r border-slate-100">Real-Time Dashboard</td>
-                                <td class="py-6 px-6 text-sm text-center font-medium text-slate-500 border-r border-slate-100">No</td>
-                                <td class="py-6 px-6 text-sm text-center font-medium text-slate-500 border-r border-slate-100">Limited</td>
-                                <td class="py-6 px-6 text-sm text-center font-black text-blue-700 bg-blue-50/20">Yes, full visibility</td>
-                            </tr>
-
-                            <tr class="hover:bg-slate-50 transition-colors ">
-                                <td class="py-6 px-6 text-sm font-bold text-slate-700 border-r border-slate-100">Automated Response</td>
-                                <td class="py-6 px-6 text-sm text-center font-medium text-slate-500 border-r border-slate-100">No</td>
-                                <td class="py-6 px-6 text-sm text-center font-medium text-slate-500 border-r border-slate-100">No</td>
-                                <td class="py-6 px-6 text-sm text-center font-black text-blue-700 bg-blue-50/20">Yes, with approval</td>
-                            </tr>
-
-                            <tr class="hover:bg-slate-50 transition-colors ">
-                                <td class="py-6 px-6 text-sm font-bold text-slate-700 border-r border-slate-100">Threat Prediction</td>
-                                <td class="py-6 px-6 text-sm text-center font-medium text-slate-500 border-r border-slate-100">No</td>
-                                <td class="py-6 px-6 text-sm text-center font-medium text-slate-500 border-r border-slate-100">No</td>
-                                <td class="py-6 px-6 text-sm text-center font-black text-blue-700 bg-blue-50/20">Yes, viral probability</td>
-                            </tr>
-
-                            <tr class="hover:bg-slate-50 transition-colors ">
-                                <td class="py-6 px-6 text-sm font-bold text-slate-700 border-r border-slate-100">Positioning</td>
-                                <td class="py-6 px-6 text-sm text-center font-medium text-slate-500 border-r border-slate-100">ORM tool</td>
-                                <td class="py-6 px-6 text-sm text-center font-medium text-slate-500 border-r border-slate-100">Monitoring SaaS</td>
-                                <td class="py-6 px-6 text-sm text-center font-black text-blue-700 bg-blue-50/20">Security platform</td>
-                            </tr>
-
+html += """
                         </tbody>
                     </table>
                 </div>
@@ -753,55 +509,33 @@
             </div>
             
             <div class="grid md:grid-cols-2 gap-8 max-w-6xl mx-auto">
+"""
 
-                <div class="p-8 md:p-12 rounded-[2.5rem] border transition-all card-3d flex flex-col bg-slate-50 border-slate-200 shadow-sm hover:shadow-xl hover:border-slate-300">
-                    <h3 class="font-heading text-2xl md:text-3xl font-bold text-slate-900 mb-6 tracking-tight">FOUNDERS & CEOs</h3>
-                    <div class="bg-white border-slate-100 border p-6 rounded-2xl mb-8 flex-grow shadow-sm">
-                        <div class="text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em] mb-3 flex items-center gap-2"><i data-lucide="crosshairs" class="w-3 h-3"></i> The Challenge</div>
-                        <p class="text-sm md:text-base font-semibold text-slate-700 leading-relaxed">Your personal brand = company value. One tweet can tank valuation.</p>
+for i, u in enumerate(use_cases):
+    is_premium = "true" if i == 1 else "false"
+    c_bg = "bg-slate-900 text-white border-slate-800 shadow-2xl" if i == 1 else "bg-slate-50 border-slate-200 shadow-sm hover:shadow-xl hover:border-slate-300"
+    c_text = "text-white" if i == 1 else "text-slate-900"
+    c_inner = "bg-white/10 border-white/20" if i == 1 else "bg-white border-slate-100"
+    c_lbl = "text-blue-300" if i==1 else "text-slate-400"
+    c_sub = "text-slate-200" if i==1 else "text-slate-700"
+    c_qh = "text-slate-800" if i==1 else "text-slate-200"
+    c_qi = "text-blue-400" if i==1 else "text-blue-700"
+
+    html += f"""
+                <div class="p-8 md:p-12 rounded-[2.5rem] border transition-all card-3d flex flex-col {c_bg}">
+                    <h3 class="font-heading text-2xl md:text-3xl font-bold {c_text} mb-6 tracking-tight">{u['title']}</h3>
+                    <div class="{c_inner} border p-6 rounded-2xl mb-8 flex-grow shadow-sm">
+                        <div class="text-[10px] font-bold {c_lbl} uppercase tracking-[0.2em] mb-3 flex items-center gap-2"><i data-lucide="crosshairs" class="w-3 h-3"></i> The Challenge</div>
+                        <p class="text-sm md:text-base font-semibold {c_sub} leading-relaxed">{u['chal']}</p>
                     </div>
                     <div class="relative">
-                        <i data-lucide="quote" class="w-6 h-6 absolute -top-3 -left-3 text-slate-200 opacity-50 z-0 scale-150"></i>
-                        <p class="text-[15px] font-bold text-blue-700 italic relative z-10 pl-6 leading-relaxed">"My reputation is my moat. RepScan protects my moat."</p>
+                        <i data-lucide="quote" class="w-6 h-6 absolute -top-3 -left-3 {c_qh} opacity-50 z-0 scale-150"></i>
+                        <p class="text-[15px] font-bold {c_qi} italic relative z-10 pl-6 leading-relaxed">"{u['imp']}"</p>
                     </div>
                 </div>
+"""
 
-                <div class="p-8 md:p-12 rounded-[2.5rem] border transition-all card-3d flex flex-col bg-slate-900 text-white border-slate-800 shadow-2xl">
-                    <h3 class="font-heading text-2xl md:text-3xl font-bold text-white mb-6 tracking-tight">ENTERPRISE BRANDS</h3>
-                    <div class="bg-white/10 border-white/20 border p-6 rounded-2xl mb-8 flex-grow shadow-sm">
-                        <div class="text-[10px] font-bold text-blue-300 uppercase tracking-[0.2em] mb-3 flex items-center gap-2"><i data-lucide="crosshairs" class="w-3 h-3"></i> The Challenge</div>
-                        <p class="text-sm md:text-base font-semibold text-slate-200 leading-relaxed">Distributed risk. One employee mistake = global crisis.</p>
-                    </div>
-                    <div class="relative">
-                        <i data-lucide="quote" class="w-6 h-6 absolute -top-3 -left-3 text-slate-800 opacity-50 z-0 scale-150"></i>
-                        <p class="text-[15px] font-bold text-blue-400 italic relative z-10 pl-6 leading-relaxed">"One platform. Company-wide protection. Crises prevented."</p>
-                    </div>
-                </div>
-
-                <div class="p-8 md:p-12 rounded-[2.5rem] border transition-all card-3d flex flex-col bg-slate-50 border-slate-200 shadow-sm hover:shadow-xl hover:border-slate-300">
-                    <h3 class="font-heading text-2xl md:text-3xl font-bold text-slate-900 mb-6 tracking-tight">PUBLIC FIGURES</h3>
-                    <div class="bg-white border-slate-100 border p-6 rounded-2xl mb-8 flex-grow shadow-sm">
-                        <div class="text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em] mb-3 flex items-center gap-2"><i data-lucide="crosshairs" class="w-3 h-3"></i> The Challenge</div>
-                        <p class="text-sm md:text-base font-semibold text-slate-700 leading-relaxed">Every word analyzed. Coordinated attacks. Reputation = career.</p>
-                    </div>
-                    <div class="relative">
-                        <i data-lucide="quote" class="w-6 h-6 absolute -top-3 -left-3 text-slate-200 opacity-50 z-0 scale-150"></i>
-                        <p class="text-[15px] font-bold text-blue-700 italic relative z-10 pl-6 leading-relaxed">"My career depends on my reputation. RepScan protects it."</p>
-                    </div>
-                </div>
-
-                <div class="p-8 md:p-12 rounded-[2.5rem] border transition-all card-3d flex flex-col bg-slate-50 border-slate-200 shadow-sm hover:shadow-xl hover:border-slate-300">
-                    <h3 class="font-heading text-2xl md:text-3xl font-bold text-slate-900 mb-6 tracking-tight">AGENCIES & PR FIRMS</h3>
-                    <div class="bg-white border-slate-100 border p-6 rounded-2xl mb-8 flex-grow shadow-sm">
-                        <div class="text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em] mb-3 flex items-center gap-2"><i data-lucide="crosshairs" class="w-3 h-3"></i> The Challenge</div>
-                        <p class="text-sm md:text-base font-semibold text-slate-700 leading-relaxed">Protecting multiple clients. Need proactive protection to show value.</p>
-                    </div>
-                    <div class="relative">
-                        <i data-lucide="quote" class="w-6 h-6 absolute -top-3 -left-3 text-slate-200 opacity-50 z-0 scale-150"></i>
-                        <p class="text-[15px] font-bold text-blue-700 italic relative z-10 pl-6 leading-relaxed">"We went from reacting to preventing. Client retention skyrocketed."</p>
-                    </div>
-                </div>
-
+html += """
             </div>
         </div>
     </section>
@@ -1066,3 +800,9 @@
     </script>
 </body>
 </html>
+"""
+
+with open("index.html", "w", encoding="utf-8") as f:
+    f.write(html)
+
+print("Successfully generated complete RepScan storyline in index.html!")
