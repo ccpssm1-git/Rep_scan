@@ -877,6 +877,54 @@ html += """
             }, 300);
         }
 
+        // Form Submission Logic
+        const scanForm = document.querySelector('#scan-modal-content form');
+        if(scanForm) {
+            const scanBtn = scanForm.querySelector('button');
+            scanBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                scanForm.parentElement.innerHTML = `
+                    <div class="text-center py-6 animate-pulse">
+                        <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-blue-100 text-blue-600 mb-6 border border-blue-200">
+                            <i data-lucide="shield" class="w-8 h-8"></i>
+                        </div>
+                        <h4 class="font-heading font-bold text-slate-900 text-2xl mb-3">Initializing Protocols...</h4>
+                        <p class="text-slate-600 text-sm font-medium">RepGuard AI is mapping your digital footprint across the dark web, global media, and social networks.</p>
+                        <div class="mt-8 w-full bg-slate-100 rounded-full h-1.5 overflow-hidden">
+                            <div class="bg-blue-600 h-1.5 rounded-full" style="width: 45%; transition: width 2s ease-in-out;" id="fake-progress"></div>
+                        </div>
+                    </div>
+                `;
+                lucide.createIcons();
+                
+                // Simulate completion
+                setTimeout(() => {
+                    const progress = document.getElementById('fake-progress');
+                    if(progress) progress.style.width = '100%';
+                    
+                    setTimeout(() => {
+                        const content = document.querySelector('#scan-modal-content .p-8');
+                        if(content) {
+                            content.innerHTML = `
+                                <div class="text-center py-6">
+                                    <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-green-100 text-green-600 mb-6 border border-green-200">
+                                        <i data-lucide="check-circle" class="w-8 h-8"></i>
+                                    </div>
+                                    <h4 class="font-heading font-bold text-slate-900 text-2xl mb-3">Threat Profile Generating</h4>
+                                    <p class="text-slate-600 text-sm font-medium mb-8">We will send your comprehensive risk analysis and potential exposure report directly to your email shortly.</p>
+                                    <button id="close-modal-success" class="w-full px-6 py-4 bg-slate-900 text-white rounded-xl font-bold hover:bg-slate-800 transition-all shadow-lg flex justify-center items-center">
+                                        Close Window
+                                    </button>
+                                </div>
+                            `;
+                            lucide.createIcons();
+                            document.getElementById('close-modal-success').addEventListener('click', closeModal);
+                        }
+                    }, 1500);
+                }, 800);
+            });
+        }
+
         openBtns.forEach(btn => btn.addEventListener('click', openModal));
         if(closeBtn) closeBtn.addEventListener('click', closeModal);
         if(modalBackdrop) modalBackdrop.addEventListener('click', closeModal);
@@ -930,7 +978,18 @@ html += """
 </html>
 """
 
-with open("index.html", "w", encoding="utf-8") as f:
-    f.write(html)
 
-print("Successfully generated complete RepGuard storyline in index.html!")
+variations = {
+    'index.html': { 'headline': 'Your Reputation Is Under Attack.<br><span class="text-gradient">We Defend It Like Cybersecurity.</span>', 'sub': 'One negative post. One viral moment. One AI summary—and everything changes. We don\'t wait for crises. We detect threats in real-time, analyze the risk, and neutralize them before they become your next billion-dollar problem.' },
+    'fear-angle.html': { 'headline': 'You\'re 1 viral tweet away from a<br><span class="text-gradient"> loss.</span>', 'sub': 'Traditional PR waits for the newspaper. We don\'t. At RepGuard, we treat your reputation like a cybersecurity threat. Our AI monitors the dark web, Reddit, and global media to detect, analyze, and neutralize viral threats before they reach your stakeholders.' },
+    'logic-angle.html': { 'headline': 'Why use PR tools to fight a<br><span class="text-gradient">cybersecurity war?</span>', 'sub': 'PR agencies send you a report 48 hours after you’ve already gone viral. The internet moves in seconds. Your defense should too. RepGuard detects threats within seconds and deploys automated counter-measures. Don\'t report on the crisis—prevent it.' },
+    'public-figure.html': { 'headline': 'Cancel culture isn\'t a PR problem.<br><span class="text-gradient">It\'s an attack.</span>', 'sub': 'One coordinated online attack can erase a decade of career building. You need a shield that predicts and neutralizes threats before they trend. RepGuard protects the names that power billion-dollar industries.' },
+}
+
+for filename, var_data in variations.items():
+    vhtml = html.replace('Your Reputation Is Under Attack.<br>\n                <span class="text-gradient">We Defend It Like Cybersecurity.</span>', var_data['headline'])
+    vhtml = vhtml.replace('One negative post. One viral moment. One AI summary—and everything changes. We don\'t wait for crises. We detect threats in real-time, analyze the risk, and neutralize them before they become your next billion-dollar problem.', var_data['sub'])
+    with open(filename, 'w', encoding='utf-8') as f:
+        f.write(vhtml)
+    print(f'Successfully generated {filename}')
+
