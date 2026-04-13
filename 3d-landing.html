@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RepGuard — 3D Experience</title>
+    <meta name="description" content="Immersive 3D landing — reputation defense, reimagined in space.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <style>
+        * { margin: 0; box-sizing: border-box; }
+        html, body {
+            height: 100%;
+            overflow-x: hidden;
+            font-family: 'Inter', system-ui, sans-serif;
+            background: #030712;
+            color: #f1f5f9;
+        }
+        #canvas-wrap {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+        }
+        canvas { display: block; width: 100%; height: 100%; }
+
+        .ui {
+            position: relative;
+            z-index: 2;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: clamp(1.5rem, 5vw, 4rem);
+            pointer-events: none;
+        }
+        .ui * { pointer-events: auto; }
+
+        .hero-panel {
+            max-width: 36rem;
+            padding: clamp(1.75rem, 4vw, 2.5rem);
+            border-radius: 1.25rem;
+            background: linear-gradient(135deg, rgba(15, 23, 42, 0.75) 0%, rgba(30, 41, 59, 0.55) 100%);
+            border: 1px solid rgba(148, 163, 184, 0.2);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            box-shadow:
+                0 0 0 1px rgba(255, 255, 255, 0.05) inset,
+                0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            transform-style: preserve-3d;
+            transition: transform 0.35s ease, box-shadow 0.35s ease;
+        }
+        @media (hover: hover) {
+            .hero-panel:hover {
+                transform: perspective(1000px) rotateY(2deg) rotateX(-2deg) translateZ(8px);
+                box-shadow:
+                    0 0 0 1px rgba(96, 165, 250, 0.15) inset,
+                    0 30px 60px -15px rgba(37, 99, 235, 0.25);
+            }
+        }
+
+        h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(2.25rem, 6vw, 3.75rem);
+            font-weight: 700;
+            line-height: 1.05;
+            letter-spacing: -0.03em;
+            margin-bottom: 1rem;
+            background: linear-gradient(120deg, #fff 0%, #94a3b8 45%, #60a5fa 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .sub {
+            font-size: clamp(1rem, 2.2vw, 1.125rem);
+            color: #94a3b8;
+            line-height: 1.6;
+            margin-bottom: 1.75rem;
+        }
+        .actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+        }
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.75rem;
+            font-weight: 500;
+            font-size: 0.9375rem;
+            text-decoration: none;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #2563eb, #3b82f6);
+            color: #fff;
+            box-shadow: 0 4px 24px rgba(37, 99, 235, 0.4);
+        }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(37, 99, 235, 0.5); }
+        .btn-ghost {
+            background: rgba(255, 255, 255, 0.06);
+            color: #e2e8f0;
+            border: 1px solid rgba(148, 163, 184, 0.25);
+        }
+        .btn-ghost:hover { background: rgba(255, 255, 255, 0.1); transform: translateY(-2px); }
+
+        .scroll-hint {
+            position: fixed;
+            bottom: 1.5rem;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 2;
+            font-size: 0.75rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: #64748b;
+            animation: pulse-opacity 3s ease-in-out infinite;
+        }
+        @keyframes pulse-opacity {
+            0%, 100% { opacity: 0.4; }
+            50% { opacity: 1; }
+        }
+
+        section.fold {
+            position: relative;
+            z-index: 2;
+            min-height: 100vh;
+            padding: clamp(3rem, 8vw, 6rem);
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+        }
+        .fold-card {
+            max-width: 28rem;
+            padding: 2rem;
+            border-radius: 1rem;
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            backdrop-filter: blur(16px);
+        }
+        .fold-card h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.5rem;
+            margin-bottom: 0.75rem;
+            color: #e2e8f0;
+        }
+        .fold-card p { color: #94a3b8; line-height: 1.65; font-size: 0.95rem; }
+    </style>
+</head>
+<body>
+    <div id="canvas-wrap" aria-hidden="true"></div>
+
+    <header class="ui">
+        <div class="hero-panel">
+            <h1>Defense in depth—now in three dimensions.</h1>
+            <p class="sub">Real-time threat surfaces, orbital monitoring, and a living field of signals. Scroll to explore; move your pointer to steer the view.</p>
+            <div class="actions">
+                <a class="btn btn-primary" href="index.html">Enter RepGuard</a>
+                <a class="btn btn-ghost" href="how-it-works.html">How it works</a>
+            </div>
+        </div>
+    </header>
+
+    <p class="scroll-hint">Scroll · 3D continues</p>
+
+    <section class="fold">
+        <div class="fold-card">
+            <h2>Every vector animated</h2>
+            <p>The scene runs entirely in WebGL: instanced geometry, layered materials, and a camera that responds to your scroll and cursor. No video loops—pure real-time 3D.</p>
+        </div>
+    </section>
+
+    <script>
+        (function () {
+            const wrap = document.getElementById('canvas-wrap');
+            const scene = new THREE.Scene();
+            scene.fog = new THREE.FogExp2(0x030712, 0.035);
+
+            const camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 200);
+            camera.position.set(0, 2, 14);
+
+            const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false });
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setClearColor(0x030712, 1);
+            wrap.appendChild(renderer.domElement);
+
+            const ambient = new THREE.AmbientLight(0x4c6dd4, 0.35);
+            scene.add(ambient);
+            const key = new THREE.DirectionalLight(0xffffff, 0.85);
+            key.position.set(8, 12, 10);
+            scene.add(key);
+            const rim = new THREE.PointLight(0x60a5fa, 0.6, 40);
+            rim.position.set(-6, 4, 6);
+            scene.add(rim);
+            const accent = new THREE.PointLight(0xa78bfa, 0.45, 35);
+            accent.position.set(5, -2, -4);
+            scene.add(accent);
+
+            const mainGroup = new THREE.Group();
+            scene.add(mainGroup);
+
+            const torusOuter = new THREE.Mesh(
+                new THREE.TorusKnotGeometry(1.35, 0.38, 180, 24, 2, 3),
+                new THREE.MeshStandardMaterial({
+                    color: 0x1e3a5f,
+                    metalness: 0.65,
+                    roughness: 0.25,
+                    emissive: 0x1d4ed8,
+                    emissiveIntensity: 0.35
+                })
+            );
+            mainGroup.add(torusOuter);
+
+            const torusInner = new THREE.Mesh(
+                new THREE.TorusKnotGeometry(1.2, 0.32, 128, 20, 3, 4),
+                new THREE.MeshBasicMaterial({
+                    color: 0x3b82f6,
+                    wireframe: true,
+                    transparent: true,
+                    opacity: 0.35
+                })
+            );
+            mainGroup.add(torusInner);
+
+            const orbitGroup = new THREE.Group();
+            mainGroup.add(orbitGroup);
+
+            const shardGeo = new THREE.OctahedronGeometry(0.22, 0);
+            const shardMat = new THREE.MeshStandardMaterial({
+                color: 0x64748b,
+                metalness: 0.9,
+                roughness: 0.15,
+                emissive: 0x2563eb,
+                emissiveIntensity: 0.4
+            });
+            const orbitCount = 48;
+            const orbitRadius = 3.8;
+            const shards = [];
+            for (let i = 0; i < orbitCount; i++) {
+                const m = new THREE.Mesh(shardGeo, shardMat.clone());
+                const a = (i / orbitCount) * Math.PI * 2;
+                const tilt = (i * 0.7) % (Math.PI * 2);
+                m.position.set(
+                    Math.cos(a) * orbitRadius,
+                    Math.sin(tilt * 0.5) * 1.2,
+                    Math.sin(a) * orbitRadius
+                );
+                m.userData.phase = i * 0.31;
+                m.userData.speed = 0.4 + (i % 5) * 0.08;
+                orbitGroup.add(m);
+                shards.push(m);
+            }
+
+            const grid = new THREE.GridHelper(80, 80, 0x1e3a8a, 0x0f172a);
+            grid.position.y = -4.2;
+            grid.material.opacity = 0.22;
+            grid.material.transparent = true;
+            scene.add(grid);
+
+            const particleCount = 1200;
+            const pPos = new Float32Array(particleCount * 3);
+            const pVel = [];
+            for (let i = 0; i < particleCount; i++) {
+                pPos[i * 3] = (Math.random() - 0.5) * 60;
+                pPos[i * 3 + 1] = (Math.random() - 0.5) * 40;
+                pPos[i * 3 + 2] = (Math.random() - 0.5) * 60;
+                pVel.push({
+                    x: (Math.random() - 0.5) * 0.015,
+                    y: (Math.random() - 0.5) * 0.012,
+                    z: (Math.random() - 0.5) * 0.015
+                });
+            }
+            const pGeo = new THREE.BufferGeometry();
+            pGeo.setAttribute('position', new THREE.BufferAttribute(pPos, 3));
+            const pMat = new THREE.PointsMaterial({
+                color: 0x93c5fd,
+                size: 0.06,
+                transparent: true,
+                opacity: 0.55,
+                sizeAttenuation: true
+            });
+            const stars = new THREE.Points(pGeo, pMat);
+            scene.add(stars);
+
+            const rings = new THREE.Group();
+            scene.add(rings);
+            for (let r = 0; r < 3; r++) {
+                const ring = new THREE.Mesh(
+                    new THREE.TorusGeometry(5 + r * 2.2, 0.02, 8, 100),
+                    new THREE.MeshBasicMaterial({
+                        color: r === 0 ? 0x3b82f6 : r === 1 ? 0x6366f1 : 0x8b5cf6,
+                        transparent: true,
+                        opacity: 0.15 - r * 0.03
+                    })
+                );
+                ring.rotation.x = Math.PI / 2 + r * 0.2;
+                ring.rotation.z = r * 0.4;
+                ring.userData.spin = 0.08 + r * 0.04;
+                rings.add(ring);
+            }
+
+            let mouseX = 0, mouseY = 0;
+            let targetRotX = 0, targetRotY = 0;
+            document.addEventListener('mousemove', (e) => {
+                mouseX = (e.clientX / window.innerWidth) * 2 - 1;
+                mouseY = (e.clientY / window.innerHeight) * 2 - 1;
+            });
+
+            let scrollY = 0;
+            window.addEventListener('scroll', () => { scrollY = window.scrollY; }, { passive: true });
+
+            const clock = new THREE.Clock();
+
+            function animate() {
+                requestAnimationFrame(animate);
+                const t = clock.getElapsedTime();
+
+                targetRotY = mouseX * 0.35;
+                targetRotX = mouseY * 0.22;
+                const scrollBoost = Math.min(scrollY * 0.0012, 1.2);
+
+                mainGroup.rotation.y += 0.008 + scrollBoost * 0.004;
+                mainGroup.rotation.x = THREE.MathUtils.lerp(mainGroup.rotation.x, targetRotX * 0.45 + scrollBoost * 0.18, 0.06);
+                mainGroup.rotation.z = THREE.MathUtils.lerp(mainGroup.rotation.z, targetRotY * 0.12, 0.05);
+
+                torusOuter.rotation.x = t * 0.31;
+                torusOuter.rotation.z = t * 0.19;
+                torusInner.rotation.x = -t * 0.42;
+                torusInner.rotation.y = t * 0.28;
+
+                orbitGroup.rotation.y = t * 0.35;
+                orbitGroup.rotation.x = Math.sin(t * 0.2) * 0.15;
+
+                shards.forEach((m, i) => {
+                    const ph = m.userData.phase;
+                    m.rotation.x = t * m.userData.speed + ph;
+                    m.rotation.y = t * 0.6 + ph;
+                    const s = 1 + Math.sin(t * 2 + ph) * 0.12;
+                    m.scale.setScalar(s);
+                });
+
+                rings.children.forEach((ring, i) => {
+                    ring.rotation.z += ring.userData.spin * 0.008;
+                    ring.position.y = Math.sin(t * 0.4 + i) * 0.3 - 1;
+                });
+
+                const pos = stars.geometry.attributes.position.array;
+                for (let i = 0; i < particleCount; i++) {
+                    pos[i * 3] += pVel[i].x;
+                    pos[i * 3 + 1] += pVel[i].y;
+                    pos[i * 3 + 2] += pVel[i].z;
+                    if (Math.abs(pos[i * 3]) > 30) pVel[i].x *= -1;
+                    if (Math.abs(pos[i * 3 + 1]) > 20) pVel[i].y *= -1;
+                    if (Math.abs(pos[i * 3 + 2]) > 30) pVel[i].z *= -1;
+                }
+                stars.geometry.attributes.position.needsUpdate = true;
+                stars.rotation.y = t * 0.02;
+
+                camera.position.z = 14 + scrollY * 0.008;
+                camera.position.y = 2 + Math.sin(t * 0.15) * 0.15 + scrollY * 0.003;
+                camera.lookAt(0, scrollY * 0.002, 0);
+
+                rim.position.x = Math.sin(t * 0.5) * 4;
+                accent.position.z = Math.cos(t * 0.4) * 5;
+
+                renderer.render(scene, camera);
+            }
+            animate();
+
+            window.addEventListener('resize', () => {
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(window.innerWidth, window.innerHeight);
+            });
+        })();
+    </script>
+</body>
+</html>

@@ -3,7 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RepGuard.ai | Reputation Isn't PR. It's Cybersecurity.</title>
+    <title>RepGuard | Reputation Isn't PR. It's Crisis.</title>
+    <meta name="description" content="RepGuard is the lead reputation defense platform. We detect, analyze, and neutralize viral threats before they damage your brand. Not just PR—Crisis.">
+    <meta property="og:title" content="RepGuard | Reputation Defense Platform">
+    <meta property="og:description" content="Secure your reputation with real-time threat detection and active defense.">
+    <meta property="og:image" content="logo.png">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
@@ -63,6 +67,23 @@
         }
 
         .parallax-shape { position: absolute; border-radius: 50%; opacity: 0.15; filter: blur(40px); z-index: -1; }
+
+        /* Dashboard Styles */
+        .gauge-container { position: relative; width: 140px; height: 140px; }
+        .gauge-svg { transform: rotate(-90deg); }
+        .gauge-circle-bg { fill: none; stroke: #f1f5f9; stroke-width: 8; }
+        .gauge-circle-fill { 
+            fill: none; stroke: #3b82f6; stroke-width: 8; stroke-linecap: round;
+            stroke-dasharray: 283; stroke-dashoffset: 283;
+            transition: stroke-dashoffset 2s cubic-bezier(0.1, 0.5, 0.2, 1);
+        }
+        
+        .progress-bar-container { width: 100%; height: 6px; background: #f1f5f9; border-radius: 99px; overflow: hidden; }
+        .progress-bar-fill { height: 100%; background: #3b82f6; width: 0; transition: width 1.5s cubic-bezier(0.1, 0.5, 0.2, 1); }
+        
+        .findings-list { max-height: 200px; overflow-y: auto; }
+        .finding-item { filter: blur(4px); opacity: 0.5; transition: all 0.5s ease; cursor: default; }
+        .finding-item:hover { filter: blur(0); opacity: 1; }
     </style>
 </head>
 <body class="antialiased selection:bg-blue-200">
@@ -75,9 +96,12 @@
 
     <nav class="fixed top-0 w-full z-50 glass-panel border-b border-gray-100 transition-all duration-300">
         <div class="container mx-auto px-6 h-20 flex items-center justify-between relative">
-            <div class="flex items-center gap-2 cursor-pointer">
-                <img src="logo.png" alt="RepGuard.ai Logo" class="h-10 w-auto object-contain">
+            <div class="flex items-center gap-2 cursor-pointer" onclick="window.location.href='index.html'">
+                <img src="logo.png" alt="RepGuard Logo" class="h-16 w-auto object-contain">
+                <span class="text-2xl font-bold tracking-tight text-slate-900 ml-1">RepGuard</span>
             </div>
+            
+            <!-- Desktop Nav -->
             <div class="hidden md:flex items-center gap-8 text-sm font-medium text-slate-600 h-full">
                 <!-- Mega Menu -->
                 <div class="group h-full flex items-center">
@@ -212,8 +236,24 @@
                 
                 <a href="#problem" class="hover:text-blue-600 transition-colors font-medium">The Risk</a>
                 <a href="#solution" class="hover:text-blue-600 transition-colors font-medium">Platform</a>
-                <button class="open-scan-modal bg-blue-600 text-white px-6 py-2.5 rounded-full hover:bg-blue-700 transition-all shadow-lg hover:shadow-xl hover:-translate-y-0.5 font-semibold card-3d ml-4">Get Your Free Analysis</button>
+                <button onclick="window.location.href='https://repscan-1kbq.vercel.app/reputation-os'" class="bg-blue-600 text-white px-6 py-2.5 rounded-full hover:bg-blue-700 transition-all shadow-lg hover:shadow-xl hover:-translate-y-0.5 font-semibold card-3d ml-4">Start Your Free Reputation Scan</button>
             </div>
+
+            <!-- Mobile Menu Button -->
+            <button class="md:hidden p-2 text-slate-600 hover:text-blue-600 transition-colors" id="mobile-menu-btn">
+                <i data-lucide="menu" class="w-6 h-6"></i>
+            </button>
+        </div>
+
+        <!-- Mobile Menu Overlay -->
+        <div class="fixed inset-0 bg-white z-[60] hidden flex flex-col items-center justify-center space-y-8 text-2xl font-bold text-slate-900 transition-all duration-300 transform translate-x-full" id="mobile-menu-overlay">
+            <button class="absolute top-6 right-6 p-4 text-slate-400 hover:text-slate-900" id="close-mobile-menu">
+                <i data-lucide="x" class="w-8 h-8"></i>
+            </button>
+            <a href="#problem" class="hover:text-blue-600 transition-colors">The Risk</a>
+            <a href="#solution" class="hover:text-blue-600 transition-colors">Platform</a>
+            <a href="#services" class="hover:text-blue-600 transition-colors">Services</a>
+            <button onclick="window.location.href='https://repscan-1kbq.vercel.app/reputation-os'" class="bg-blue-600 text-white px-10 py-4 rounded-full shadow-xl">Start Your Free Reputation Scan</button>
         </div>
     </nav>
 
@@ -222,16 +262,16 @@
         <div class="container mx-auto text-center z-10 max-w-5xl">
             <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-blue-100 bg-blue-50 text-blue-600 text-xs font-bold uppercase tracking-widest mb-6 shadow-sm">
                 <span class="w-2 h-2 rounded-full bg-blue-600 animate-pulse"></span>
-                Reputation Isn't PR. It's Cybersecurity.
+                Reputation Isn't PR. It's Crisis.
             </div>
             <h1 class="font-heading text-5xl md:text-7xl font-bold tracking-tight text-slate-900 mb-6 leading-[1.1]">
-                Why use PR tools to fight a<br><span class="text-gradient">cybersecurity war?</span>
+                Why use PR tools to fight a<br><span class="text-gradient">crisis war?</span>
             </h1>
             <p class="text-xl md:text-2xl text-slate-600 mb-10 max-w-3xl mx-auto leading-relaxed">
                 PR agencies send you a report 48 hours after you’ve already gone viral. The internet moves in seconds. Your defense should too. RepGuard detects threats within seconds and deploys automated counter-measures. Don't report on the crisis—prevent it.
             </p>
             <div class="flex flex-col sm:flex-row items-center justify-center gap-4 mb-4">
-                <button class="open-scan-modal w-full sm:w-auto px-8 py-4 bg-green-500 text-white rounded-lg font-bold text-lg hover:bg-green-600 transition-all shadow-lg hover:shadow-green-500/30 flex items-center justify-center gap-2 card-3d">
+                <button onclick="window.location.href='https://repscan-1kbq.vercel.app/reputation-os'" class="w-full sm:w-auto px-8 py-4 bg-green-500 text-white rounded-lg font-bold text-lg hover:bg-green-600 transition-all shadow-lg hover:shadow-green-500/30 flex items-center justify-center gap-2 card-3d">
                     <i data-lucide="radar" class="w-5 h-5"></i> Start Your Free Reputation Scan
                 </button>
                 <button class="w-full sm:w-auto px-8 py-4 bg-white text-slate-900 border-2 border-slate-200 rounded-lg font-bold text-lg hover:border-slate-400 hover:bg-slate-50 transition-all flex items-center justify-center gap-2 card-3d">
@@ -248,7 +288,7 @@
                             <div class="flex items-center gap-3">
                                 <div class="w-3 h-3 rounded-full bg-red-400"></div><div class="w-3 h-3 rounded-full bg-orange-400"></div><div class="w-3 h-3 rounded-full bg-green-400"></div>
                             </div>
-                            <span class="text-xs font-mono text-slate-400 font-bold tracking-widest text-center flex-grow">REPSCAN.AI // ACTIVE DEFENSE DASHBOARD</span>
+                            <span class="text-xs font-mono text-slate-400 font-bold tracking-widest text-center flex-grow">REPGUARD // ACTIVE DEFENSE DASHBOARD</span>
                         </div>
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-left">
                             <div class="bg-white p-5 rounded-xl border border-red-100 shadow-sm relative overflow-hidden group hover:border-red-300 transition-colors">
@@ -880,125 +920,66 @@
                 <p class="text-xl text-slate-600 font-medium">The stakes change. The defense mechanism doesn't.</p>
             </div>
             
-            <div class="grid md:grid-cols-2 gap-8 max-w-6xl mx-auto">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6 max-w-7xl mx-auto">
 
-                <div class="p-8 md:p-12 rounded-[2.5rem] border transition-all card-3d flex flex-col bg-slate-50 border-slate-200 shadow-sm hover:shadow-xl hover:border-slate-300">
-                    <h3 class="font-heading text-2xl md:text-3xl font-bold text-slate-900 mb-6 tracking-tight">FOUNDERS & CEOs</h3>
-                    <div class="bg-white border-slate-100 border p-6 rounded-2xl mb-8 flex-grow shadow-sm">
-                        <div class="text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em] mb-3 flex items-center gap-2"><i data-lucide="crosshairs" class="w-3 h-3"></i> The Challenge</div>
-                        <p class="text-sm md:text-base font-semibold text-slate-700 leading-relaxed">Your personal brand = company value. One tweet can tank valuation.</p>
+                <div class="bg-slate-50 border border-slate-100 p-8 rounded-3xl hover:bg-white hover:shadow-2xl hover:shadow-blue-500/10 transition-all duration-500 group card-3d flex flex-col items-center text-center">
+                    <div class="w-14 h-14 bg-white rounded-2xl flex items-center justify-center mb-6 shadow-sm border border-slate-100 group-hover:bg-blue-600 group-hover:text-white transition-colors">
+                        <i data-lucide="building-2" class="w-6 h-6"></i>
                     </div>
-                    <div class="relative">
-                        <i data-lucide="quote" class="w-6 h-6 absolute -top-3 -left-3 text-slate-200 opacity-50 z-0 scale-150"></i>
-                        <p class="text-[15px] font-bold text-blue-700 italic relative z-10 pl-6 leading-relaxed">"My reputation is my moat. RepGuard protects my moat."</p>
-                    </div>
+                    <h3 class="text-lg font-bold text-slate-900 mb-4">Enterprise & Brands</h3>
+                    <p class="text-slate-500 text-xs leading-relaxed font-medium">Defend market position against competitor disinformation and review warfare.</p>
                 </div>
 
-                <div class="p-8 md:p-12 rounded-[2.5rem] border transition-all card-3d flex flex-col bg-slate-900 text-white border-slate-800 shadow-2xl">
-                    <h3 class="font-heading text-2xl md:text-3xl font-bold text-white mb-6 tracking-tight">ENTERPRISE BRANDS</h3>
-                    <div class="bg-white/10 border-white/20 border p-6 rounded-2xl mb-8 flex-grow shadow-sm">
-                        <div class="text-[10px] font-bold text-blue-300 uppercase tracking-[0.2em] mb-3 flex items-center gap-2"><i data-lucide="crosshairs" class="w-3 h-3"></i> The Challenge</div>
-                        <p class="text-sm md:text-base font-semibold text-slate-200 leading-relaxed">Distributed risk. One employee mistake = global crisis.</p>
+                <div class="bg-slate-50 border border-slate-100 p-8 rounded-3xl hover:bg-white hover:shadow-2xl hover:shadow-blue-500/10 transition-all duration-500 group card-3d flex flex-col items-center text-center">
+                    <div class="w-14 h-14 bg-white rounded-2xl flex items-center justify-center mb-6 shadow-sm border border-slate-100 group-hover:bg-blue-600 group-hover:text-white transition-colors">
+                        <i data-lucide="clapperboard" class="w-6 h-6"></i>
                     </div>
-                    <div class="relative">
-                        <i data-lucide="quote" class="w-6 h-6 absolute -top-3 -left-3 text-slate-800 opacity-50 z-0 scale-150"></i>
-                        <p class="text-[15px] font-bold text-blue-400 italic relative z-10 pl-6 leading-relaxed">"One platform. Company-wide protection. Crises prevented."</p>
-                    </div>
+                    <h3 class="text-lg font-bold text-slate-900 mb-4">Public Figures</h3>
+                    <p class="text-slate-500 text-xs leading-relaxed font-medium">Protect personal brand from targeted attacks, deepfakes, and media manipulation.</p>
                 </div>
 
-                <div class="p-8 md:p-12 rounded-[2.5rem] border transition-all card-3d flex flex-col bg-slate-50 border-slate-200 shadow-sm hover:shadow-xl hover:border-slate-300">
-                    <h3 class="font-heading text-2xl md:text-3xl font-bold text-slate-900 mb-6 tracking-tight">PUBLIC FIGURES</h3>
-                    <div class="bg-white border-slate-100 border p-6 rounded-2xl mb-8 flex-grow shadow-sm">
-                        <div class="text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em] mb-3 flex items-center gap-2"><i data-lucide="crosshairs" class="w-3 h-3"></i> The Challenge</div>
-                        <p class="text-sm md:text-base font-semibold text-slate-700 leading-relaxed">Every word analyzed. Coordinated attacks. Reputation = career.</p>
+                <div class="bg-slate-50 border border-slate-100 p-8 rounded-3xl hover:bg-white hover:shadow-2xl hover:shadow-blue-500/10 transition-all duration-500 group card-3d flex flex-col items-center text-center">
+                    <div class="w-14 h-14 bg-white rounded-2xl flex items-center justify-center mb-6 shadow-sm border border-slate-100 group-hover:bg-blue-600 group-hover:text-white transition-colors">
+                        <i data-lucide="megaphone" class="w-6 h-6"></i>
                     </div>
-                    <div class="relative">
-                        <i data-lucide="quote" class="w-6 h-6 absolute -top-3 -left-3 text-slate-200 opacity-50 z-0 scale-150"></i>
-                        <p class="text-[15px] font-bold text-blue-700 italic relative z-10 pl-6 leading-relaxed">"My career depends on my reputation. RepGuard protects it."</p>
-                    </div>
+                    <h3 class="text-lg font-bold text-slate-900 mb-4">Influencers</h3>
+                    <p class="text-slate-500 text-xs leading-relaxed font-medium">Shield your community from trolling campaigns and narrative hijacking.</p>
                 </div>
 
-                <div class="p-8 md:p-12 rounded-[2.5rem] border transition-all card-3d flex flex-col bg-slate-50 border-slate-200 shadow-sm hover:shadow-xl hover:border-slate-300">
-                    <h3 class="font-heading text-2xl md:text-3xl font-bold text-slate-900 mb-6 tracking-tight">AGENCIES & PR FIRMS</h3>
-                    <div class="bg-white border-slate-100 border p-6 rounded-2xl mb-8 flex-grow shadow-sm">
-                        <div class="text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em] mb-3 flex items-center gap-2"><i data-lucide="crosshairs" class="w-3 h-3"></i> The Challenge</div>
-                        <p class="text-sm md:text-base font-semibold text-slate-700 leading-relaxed">Protecting multiple clients. Need proactive protection to show value.</p>
+                <div class="bg-slate-50 border border-slate-100 p-8 rounded-3xl hover:bg-white hover:shadow-2xl hover:shadow-blue-500/10 transition-all duration-500 group card-3d flex flex-col items-center text-center">
+                    <div class="w-14 h-14 bg-white rounded-2xl flex items-center justify-center mb-6 shadow-sm border border-slate-100 group-hover:bg-blue-600 group-hover:text-white transition-colors">
+                        <i data-lucide="briefcase" class="w-6 h-6"></i>
                     </div>
-                    <div class="relative">
-                        <i data-lucide="quote" class="w-6 h-6 absolute -top-3 -left-3 text-slate-200 opacity-50 z-0 scale-150"></i>
-                        <p class="text-[15px] font-bold text-blue-700 italic relative z-10 pl-6 leading-relaxed">"We went from reacting to preventing. Client retention skyrocketed."</p>
+                    <h3 class="text-lg font-bold text-slate-900 mb-4">Executives & Founders</h3>
+                    <p class="text-slate-500 text-xs leading-relaxed font-medium">Secure digital profiles for due diligence, fundraising, and board-level trust.</p>
+                </div>
+
+                <div class="bg-slate-50 border border-slate-100 p-8 rounded-3xl hover:bg-white hover:shadow-2xl hover:shadow-blue-500/10 transition-all duration-500 group card-3d flex flex-col items-center text-center">
+                    <div class="w-14 h-14 bg-white rounded-2xl flex items-center justify-center mb-6 shadow-sm border border-slate-100 group-hover:bg-blue-600 group-hover:text-white transition-colors">
+                        <i data-lucide="shield-check" class="w-6 h-6"></i>
                     </div>
+                    <h3 class="text-lg font-bold text-slate-900 mb-4">Personal Safety</h3>
+                    <p class="text-slate-500 text-xs leading-relaxed font-medium">Combat online harassment, doxxing, and reputation-based intimidation campaigns.</p>
                 </div>
 
             </div>
         </div>
     </section>
 
-    <!-- 8. SOCIAL PROOF -->
-    <section class="py-24 bg-blue-50 border-y border-blue-100 overflow-hidden">
-        <div class="container mx-auto px-6 max-w-6xl relative">
-            <div class="text-center mb-16">
-                 <h2 class="font-heading text-3xl font-bold text-slate-900 tracking-tight">Brands Trust RepGuard</h2>
-            </div>
-            <div class="grid md:grid-cols-3 gap-6 mb-20 lg:-mx-20">
-                <div class="text-center card-3d bg-white p-10 rounded-[2rem] border border-blue-100 shadow-xl hover:border-blue-300 transition-colors group">
-                    <div class="font-heading text-6xl font-black text-blue-600 mb-4 group-hover:scale-110 transition-transform tracking-tighter">98%</div>
-                    <p class="text-[10px] font-bold text-slate-500 uppercase tracking-[0.2em] mb-1">Threats Neutralized</p>
-                    <p class="text-xs text-slate-400 font-medium">Within 24 hours</p>
-                </div>
-                <div class="text-center card-3d bg-slate-900 text-white p-10 rounded-[2rem] border border-slate-800 shadow-2xl hover:border-blue-500 transition-colors transform md:-translate-y-4 relative z-10 group">
-                    <div class="absolute -top-4 w-full text-center left-0 flex justify-center"><div class="bg-blue-600 text-white text-[10px] font-bold uppercase tracking-widest px-3 py-1 rounded-full shadow-md">Industry Best</div></div>
-                    <div class="font-heading text-6xl font-black text-white mb-4 group-hover:scale-110 transition-transform tracking-tighter">47s</div>
-                    <p class="text-[10px] font-bold text-blue-300 uppercase tracking-[0.2em] mb-1">Avg Response Time</p>
-                    <p class="text-xs text-slate-400 font-medium">From detection to action</p>
-                </div>
-                <div class="text-center card-3d bg-white p-10 rounded-[2rem] border border-blue-100 shadow-xl hover:border-blue-300 transition-colors group">
-                    <div class="font-heading text-6xl font-black text-blue-600 mb-4 group-hover:scale-110 transition-transform tracking-tighter">$2.3M</div>
-                    <p class="text-[10px] font-bold text-slate-500 uppercase tracking-[0.2em] mb-1">Avg Loss Prevented</p>
-                    <p class="text-xs text-slate-400 font-medium">Per major incident</p>
-                </div>
-            </div>
-            
-            <div class="grid md:grid-cols-2 gap-8 lg:-mx-10">
-                <div class="bg-white p-10 rounded-[2.5rem] border border-slate-200 shadow-lg card-3d relative">
-                    <div class="absolute top-8 right-8 w-12 h-12 bg-slate-50 flex items-center justify-center rounded-full border border-slate-100"><i data-lucide="quote" class="w-5 h-5 text-blue-400"></i></div>
-                    <div class="flex items-center gap-4 mb-8">
-                        <div class="w-14 h-14 bg-slate-200 rounded-full overflow-hidden border-2 border-white shadow-md"><img src="https://ui-avatars.com/api/?name=CEO&background=2563eb&color=fff&size=100" alt="CEO" class="w-full h-full"></div>
-                        <div>
-                            <div class="font-bold text-slate-900 tracking-tight">Fortune 500 CEO</div>
-                            <div class="text-[10px] uppercase tracking-widest text-slate-500 font-bold">Global Tech Enterprise</div>
-                        </div>
-                    </div>
-                    <p class="text-slate-700 font-medium leading-relaxed italic text-lg">"We prevented a $50M PR disaster using RepGuard. One crisis detected, one response approved, one problem solved before it was even public. That's the difference between legacy and innovation."</p>
-                </div>
-                <div class="bg-white p-10 rounded-[2.5rem] border border-slate-200 shadow-lg card-3d relative">
-                    <div class="absolute top-8 right-8 w-12 h-12 bg-slate-50 flex items-center justify-center rounded-full border border-slate-100"><i data-lucide="quote" class="w-5 h-5 text-blue-400"></i></div>
-                    <div class="flex items-center gap-4 mb-8">
-                        <div class="w-14 h-14 bg-slate-200 rounded-full overflow-hidden border-2 border-white shadow-md"><img src="https://ui-avatars.com/api/?name=PR&background=10b981&color=fff&size=100" alt="PR" class="w-full h-full"></div>
-                        <div>
-                            <div class="font-bold text-slate-900 tracking-tight">Agency Director</div>
-                            <div class="text-[10px] uppercase tracking-widest text-slate-500 font-bold">Top Tier PR Firm</div>
-                        </div>
-                    </div>
-                    <p class="text-slate-700 font-medium leading-relaxed italic text-lg">"This is a game-changer for our industry. We went from reacting to crises to preventing them. Our clients love it. Our business has tripled."</p>
-                </div>
-            </div>
-        </div>
-    </section>
 
     <!-- 9. FINAL CTA -->
     <section class="py-32 bg-white relative overflow-hidden text-center border-b border-slate-100">
         <div class="absolute inset-0 bg-gradient-to-b from-transparent to-blue-50/50 z-0"></div>
         <div class="container mx-auto px-6 max-w-4xl relative z-10">
-            <span class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-blue-100 text-blue-600 mb-8 shadow-sm">
-                <i data-lucide="shield" class="w-8 h-8"></i>
-            </span>
+            <div class="w-32 h-32 mx-auto mb-6 flex items-center justify-center">
+                <img src="logo.png" alt="RepGuard Logo" class="w-full h-full object-contain">
+            </div>
             <h2 class="font-heading text-5xl md:text-7xl font-bold text-slate-900 mb-8 tracking-tight">Don't Manage Reputation. <br><span class="text-blue-600">Secure It.</span></h2>
             <p class="text-xl md:text-2xl text-slate-600 mb-12 font-medium max-w-2xl mx-auto leading-relaxed">Billion-dollar reputations are lost between midnight and 9 AM. Stop reacting to crises. Start preventing them.</p>
             
             <div class="flex flex-col sm:flex-row justify-center items-center gap-4 mb-8">
-                <button class="open-scan-modal w-full sm:w-auto px-10 py-5 bg-green-500 text-white rounded-xl font-bold text-lg hover:bg-green-600 transition-all shadow-xl hover:shadow-green-500/30 card-3d flex justify-center items-center gap-2">
-                    Start 14-Day Free Trial
+                <button onclick="window.location.href='https://repscan-1kbq.vercel.app/reputation-os'" class="w-full sm:w-auto px-10 py-5 bg-green-500 text-white rounded-xl font-bold text-lg hover:bg-green-600 transition-all shadow-xl hover:shadow-green-500/30 card-3d flex justify-center items-center gap-2">
+                    Start Your Free Reputation Scan
                 </button>
                 <button class="w-full sm:w-auto px-10 py-5 bg-white text-slate-900 border border-slate-200 shadow-sm rounded-xl font-bold text-lg hover:border-slate-400 hover:bg-slate-50 transition-all card-3d flex justify-center items-center gap-2">
                     Schedule Demo
@@ -1008,14 +989,103 @@
         </div>
     </section>
 
+    <!-- 10. REPUTATION ANALYSIS TOOL SECTION -->
+    <section id="analysis-tool" class="py-24 bg-slate-50 border-t border-slate-200">
+        <div class="container mx-auto px-6 max-w-5xl">
+            <div class="text-center mb-16">
+                <h2 class="font-heading text-4xl font-bold text-slate-900 mb-4 tracking-tight">Free Online Reputation Score</h2>
+                <p class="text-slate-600 font-medium max-w-2xl mx-auto">Get an instant, automated estimate of your search visibility and sentiment score. No account required.</p>
+            </div>
+
+            <div class="bg-white rounded-[2rem] shadow-2xl border border-slate-100 p-8 md:p-12 relative overflow-hidden" id="tool-container">
+                <!-- Tool Entry State -->
+                <div id="tool-entry" class="flex flex-col items-center py-10">
+                    <div class="flex flex-col sm:flex-row items-center gap-4 w-full max-w-2xl">
+                        <input type="text" id="tool-target-name" class="flex-grow w-full px-6 py-4 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all font-medium" placeholder="Enter your name or brand...">
+                        <button id="tool-analyze-btn" class="w-full sm:w-auto px-10 py-4 bg-blue-600 text-white rounded-xl font-bold hover:bg-blue-700 transition-all shadow-lg flex items-center justify-center gap-2 whitespace-nowrap min-w-max">
+                            Run Scan
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Tool Loading State (Hidden) -->
+                <div id="tool-loading" class="hidden flex flex-col items-center py-10 text-center">
+                    <div class="w-16 h-16 border-4 border-blue-600 border-t-transparent rounded-full animate-spin mb-6"></div>
+                    <h3 class="font-heading text-2xl font-bold text-slate-900 mb-2">Analyzing Data...</h3>
+                    <p class="text-slate-500 font-medium">Scanning 100+ public sources and news archives</p>
+                </div>
+
+                <!-- Tool Dashboard State (Hidden) -->
+                <div id="tool-dashboard" class="hidden">
+                    <div class="flex flex-col md:flex-row gap-12 items-center mb-10">
+                        <div class="w-full md:w-1/3 flex flex-col items-center">
+                             <div class="relative w-48 h-48">
+                                <svg class="w-full h-full transform -rotate-90" viewBox="0 0 100 100">
+                                    <circle class="fill-none stroke-slate-100 stroke-[8]" cx="50" cy="50" r="45"></circle>
+                                    <circle class="fill-none stroke-blue-600 stroke-[8] stroke-linecap-round transition-all duration-[2000ms]" id="tool-score-gauge" cx="50" cy="50" r="45" style="stroke-dasharray: 283; stroke-dashoffset: 283;"></circle>
+                                </svg>
+                                <div class="absolute inset-0 flex flex-col items-center justify-center">
+                                    <span class="text-6xl font-black text-slate-900 leading-none" id="tool-score-val">0</span>
+                                    <span class="text-xs font-bold text-slate-400 uppercase tracking-widest mt-2">NEEDS ATTENTION</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="w-full md:w-2/3 space-y-6" id="tool-metrics-container">
+                            <!-- Populated by JS -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tool Detailed Findings State (Hidden) -->
+                <div id="tool-findings" class="hidden border-t border-slate-100 pt-8 mb-8">
+                    <h4 class="font-heading font-bold text-slate-900 mb-6 flex items-center gap-2">
+                        <i data-lucide="search-code" class="w-5 h-5 text-blue-600"></i> Found Potential Risk Sources
+                    </h4>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="tool-findings-grid">
+                        <!-- Populated by JS -->
+                    </div>
+                </div>
+
+                <div id="tool-capture" class="hidden">
+                    <div class="pt-8 border-t border-slate-100">
+                        <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+                            <div class="flex items-center gap-3 bg-red-50 px-4 py-2 rounded-lg border border-red-100 text-red-600 text-sm font-bold">
+                                <i data-lucide="alert-circle" class="w-5 h-5"></i> 15 negative results detected.
+                            </div>
+                            <div class="flex flex-col sm:flex-row items-center gap-4 w-full md:w-auto">
+                                <input type="email" id="tool-unlock-email" class="w-full sm:w-auto px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="your@email.com">
+                                <button id="tool-unlock-btn" class="w-full sm:w-auto px-6 py-2.5 bg-blue-600 text-white rounded-lg font-bold text-sm hover:bg-blue-700 transition-all shadow-md">Unlock Detailed Findings</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                </div>
+                
+                <!-- Success Messaging (Hidden) -->
+                <div id="tool-success" class="hidden flex flex-col items-center py-10 text-center">
+                    <div class="w-16 h-16 bg-green-100 text-green-600 rounded-full flex items-center justify-center mb-6">
+                        <i data-lucide="check" class="w-8 h-8"></i>
+                    </div>
+                    <h3 class="font-heading text-2xl font-bold text-slate-900 mb-2">Report Unlocked</h3>
+                    <p class="text-slate-500 font-medium">Check your inbox for the detailed breakdown.</p>
+                </div>
+            </div>
+            
+            <div class="mt-8 text-center text-[10px] font-medium text-slate-400 max-w-2xl mx-auto uppercase tracking-widest leading-relaxed">
+                This score is an automated estimate based on publicly available search data. It is not a substitute for professional reputation analysis.
+            </div>
+        </div>
+    </section>
+
     <!-- FOOTER -->
     <footer class="bg-white pt-20 pb-10 text-slate-600 relative z-10">
         <div class="container mx-auto px-6 grid md:grid-cols-12 gap-12 lg:gap-8 mb-16 max-w-7xl">
             <div class="md:col-span-5 lg:col-span-4">
-                 <div class="flex items-center gap-2 mb-6 cursor-pointer group w-max">
-                    <img src="logo.png" alt="RepGuard.ai Logo" class="h-10 w-auto object-contain group-hover:scale-105 transition-transform">
+                 <div class="flex items-center gap-2 mb-6 cursor-pointer group w-max" onclick="window.location.href='index.html'">
+                    <img src="logo.png" alt="RepGuard Logo" class="h-12 w-auto object-contain group-hover:scale-105 transition-transform">
+                    <span class="font-heading font-black text-xl tracking-tighter text-slate-900 group-hover:text-blue-600 transition-colors">REPGUARD</span>
                 </div>
-                <p class="text-sm mb-8 max-w-xs leading-relaxed font-medium">Reputation isn't PR. It's Cybersecurity.<br>The internet doesn't wait. Neither should you.</p>
+                <p class="text-sm mb-8 max-w-xs leading-relaxed font-medium">Reputation isn't PR. It's Crisis.<br>The internet doesn't wait. Neither should you.</p>
                 <div class="flex gap-3">
                     <a href="https://x.com/RepGuard999" target="_blank" class="w-10 h-10 rounded-xl bg-slate-50 border border-slate-200 flex items-center justify-center hover:text-blue-600 hover:border-blue-600 hover:bg-blue-50 transition-colors shadow-sm"><i data-lucide="twitter" class="w-4 h-4"></i></a>
                     <a href="https://www.linkedin.com/in/rg-admin-38aa823b1/" target="_blank" class="w-10 h-10 rounded-xl bg-slate-50 border border-slate-200 flex items-center justify-center hover:text-blue-600 hover:border-blue-600 hover:bg-blue-50 transition-colors shadow-sm"><i data-lucide="linkedin" class="w-4 h-4"></i></a>
@@ -1056,7 +1126,7 @@
                 <span class="w-2 h-2 rounded-full bg-green-500 block"></span> Systems Operational
             </div>
             <p class="text-xs font-semibold text-slate-400 tracking-wide text-center md:text-left mb-4 md:mb-0">
-                &copy; 2026 RepGuard.ai. All rights reserved.
+                &copy; 2026 RepGuard. All rights reserved.
             </p>
             <div class="flex items-center gap-6 text-xs font-semibold text-slate-400">
                 <a href="#" class="hover:text-slate-900 transition-colors">Terms of Service</a>
@@ -1084,24 +1154,24 @@
             <button id="close-modal" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600 transition-colors">
                 <i data-lucide="x" class="w-5 h-5"></i>
             </button>
-            <div class="p-8">
+            <div class="p-8" id="modal-body">
                 <div class="w-12 h-12 bg-blue-50 text-blue-600 rounded-full flex items-center justify-center mb-6 border border-blue-100">
                     <i data-lucide="radar" class="w-6 h-6"></i>
                 </div>
                 <h3 class="font-heading text-2xl font-bold text-slate-900 mb-2">Initialize Reputation Scan</h3>
                 <p class="text-slate-500 text-sm mb-6">Enter your details to generate a real-time threat map for your brand across 100+ sources.</p>
                 
-                <form class="space-y-4">
+                <form class="space-y-4" id="initial-scan-form">
                     <div>
                         <label class="block text-xs font-bold text-slate-700 uppercase tracking-widest mb-1">Target Name</label>
-                        <input type="text" class="w-full px-4 py-3 rounded-lg border border-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all" placeholder="E.g., John Doe or Acme Corp">
+                        <input type="text" id="target-name" class="w-full px-4 py-3 rounded-lg border border-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all" placeholder="E.g., John Doe or Acme Corp">
                     </div>
                     <div>
                         <label class="block text-xs font-bold text-slate-700 uppercase tracking-widest mb-1">Work Email</label>
-                        <input type="email" class="w-full px-4 py-3 rounded-lg border border-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all" placeholder="john@company.com">
+                        <input type="email" id="target-email" class="w-full px-4 py-3 rounded-lg border border-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all" placeholder="john@company.com">
                     </div>
-                    <button type="button" class="w-full px-6 py-4 bg-blue-600 text-white rounded-xl font-bold hover:bg-blue-700 transition-all shadow-lg hover:shadow-blue-500/30 flex justify-center items-center gap-2 mt-6">
-                        <i data-lucide="zap" class="w-4 h-4"></i> Run Threat Scan
+                    <button type="submit" class="w-full px-6 py-4 bg-blue-600 text-white rounded-xl font-bold hover:bg-blue-700 transition-all shadow-lg hover:shadow-blue-500/30 flex justify-center items-center gap-2 mt-6 whitespace-nowrap min-w-max">
+                        <i data-lucide="zap" class="w-4 h-4"></i> Run Scan
                     </button>
                 </form>
                 <div class="mt-4 text-center">
@@ -1119,6 +1189,7 @@
         const modal = document.getElementById('scan-modal');
         const modalBackdrop = document.getElementById('scan-modal-backdrop');
         const modalContent = document.getElementById('scan-modal-content');
+        const modalBody = document.getElementById('modal-body');
         const closeBtn = document.getElementById('close-modal');
         const openBtns = document.querySelectorAll('.open-scan-modal');
 
@@ -1139,56 +1210,156 @@
             modalContent.classList.add('scale-95', 'opacity-0');
             setTimeout(() => {
                 modal.classList.add('hidden');
+                // Reset modal to initial state if needed
             }, 300);
         }
 
-        // Form Submission Logic
-        const scanForm = document.querySelector('#scan-modal-content form');
-        if(scanForm) {
-            const scanBtn = scanForm.querySelector('button');
-            scanBtn.addEventListener('click', (e) => {
-                e.preventDefault();
-                scanForm.parentElement.innerHTML = `
-                    <div class="text-center py-6 animate-pulse">
-                        <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-blue-100 text-blue-600 mb-6 border border-blue-200">
-                            <i data-lucide="shield" class="w-8 h-8"></i>
+        function renderLoading() {
+            modalBody.innerHTML = `
+                <div class="text-center py-10">
+                    <div class="inline-flex items-center justify-center w-20 h-20 rounded-full bg-blue-50 text-blue-600 mb-8 animate-pulse border-2 border-blue-100">
+                        <i data-lucide="cpu" class="w-10 h-10"></i>
+                    </div>
+                    <h4 class="font-heading font-bold text-slate-900 text-2xl mb-4">Analyzing Brand Footprint...</h4>
+                    <p class="text-slate-500 text-sm font-medium mb-8">RepGuard AI is scanning dark web forums, social mentions, and global news archives.</p>
+                    <div class="w-full bg-slate-100 rounded-full h-2 overflow-hidden mb-4">
+                        <div class="bg-blue-600 h-full rounded-full transition-all duration-3000 ease-out" id="scan-bar" style="width: 0%"></div>
+                    </div>
+                    <div class="text-[10px] font-mono text-blue-600 font-bold tracking-widest">MAPPING THREAT VECTORS...</div>
+                </div>
+            `;
+            lucide.createIcons();
+            setTimeout(() => document.getElementById('scan-bar').style.width = '100%', 50);
+            setTimeout(renderDashboard, 3200);
+        }
+
+        function renderDashboard() {
+            const name = document.getElementById('target-name')?.value || 'Your Brand';
+            modalContent.classList.remove('max-w-md');
+            modalContent.classList.add('max-w-2xl');
+            
+            modalBody.innerHTML = `
+                <div class="flex flex-col md:flex-row gap-10 items-start">
+                    <div class="w-full md:w-1/2 flex flex-col items-center text-center">
+                        <div class="gauge-container mb-6">
+                            <svg class="gauge-svg w-full h-full" viewBox="0 0 100 100">
+                                <circle class="gauge-circle-bg" cx="50" cy="50" r="45"></circle>
+                                <circle class="gauge-circle-fill" id="score-gauge" cx="50" cy="50" r="45"></circle>
+                            </svg>
+                            <div class="absolute inset-0 flex flex-col items-center justify-center">
+                                <span class="text-4xl font-black text-slate-900 leading-none" id="score-val">0</span>
+                                <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1">Rep Score</span>
+                            </div>
                         </div>
-                        <h4 class="font-heading font-bold text-slate-900 text-2xl mb-3">Initializing Protocols...</h4>
-                        <p class="text-slate-600 text-sm font-medium">RepGuard AI is mapping your digital footprint across the dark web, global media, and social networks.</p>
-                        <div class="mt-8 w-full bg-slate-100 rounded-full h-1.5 overflow-hidden">
-                            <div class="bg-blue-600 h-1.5 rounded-full" style="width: 45%; transition: width 2s ease-in-out;" id="fake-progress"></div>
+                        <div class="bg-orange-50 text-orange-600 px-4 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-widest mb-6 border border-orange-100">
+                            NEEDS ATTENTION
+                        </div>
+                        <div class="w-full space-y-5 text-left">
+                            ${renderMetric('Search Visibility', 85, 'blue')}
+                            ${renderMetric('Sentiment Score', 42, 'orange')}
+                            ${renderMetric('Risk Level', 65, 'red')}
                         </div>
                     </div>
-                `;
-                lucide.createIcons();
-                
-                // Simulate completion
-                setTimeout(() => {
-                    const progress = document.getElementById('fake-progress');
-                    if(progress) progress.style.width = '100%';
-                    
-                    setTimeout(() => {
-                        const content = document.querySelector('#scan-modal-content .p-8');
-                        if(content) {
-                            content.innerHTML = `
-                                <div class="text-center py-6">
-                                    <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-green-100 text-green-600 mb-6 border border-green-200">
-                                        <i data-lucide="check-circle" class="w-8 h-8"></i>
-                                    </div>
-                                    <h4 class="font-heading font-bold text-slate-900 text-2xl mb-3">Threat Profile Generating</h4>
-                                    <p class="text-slate-600 text-sm font-medium mb-8">We will send your comprehensive risk analysis and potential exposure report directly to your email shortly.</p>
-                                    <button id="close-modal-success" class="w-full px-6 py-4 bg-slate-900 text-white rounded-xl font-bold hover:bg-slate-800 transition-all shadow-lg flex justify-center items-center">
-                                        Close Window
-                                    </button>
-                                </div>
-                            `;
-                            lucide.createIcons();
-                            document.getElementById('close-modal-success').addEventListener('click', closeModal);
-                        }
-                    }, 1500);
-                }, 800);
-            });
+                    <div class="w-full md:w-1/2">
+                        <h4 class="font-heading font-bold text-slate-900 text-lg mb-4 flex items-center gap-2">
+                            <i data-lucide="list-checks" class="w-5 h-5 text-blue-600"></i> Detailed Findings
+                        </h4>
+                        <div class="space-y-3 findings-list mb-8">
+                            ${renderFinding('Negative Glassdoor review gaining traction')}
+                            ${renderFinding('Twitter thread regarding service delay (Viral Prob: 75%)')}
+                            ${renderFinding('AI summary on Google Search includes outdated scandal')}
+                            ${renderFinding('Deepfake candidate mentioning your brand on TikTok')}
+                        </div>
+                        <div class="bg-blue-600 rounded-2xl p-6 text-white shadow-xl">
+                            <h5 class="font-bold mb-2">Unlock Full Analysis</h5>
+                            <p class="text-xs text-blue-100 mb-4 font-medium leading-relaxed">We've identified 12 specific threat vectors. Get the complete 18-page PDF report with mitigation playbooks.</p>
+                            <button id="unlock-btn" class="w-full bg-white text-blue-600 py-3 rounded-xl font-bold text-sm hover:bg-blue-50 transition-colors flex items-center justify-center gap-2">
+                                <i data-lucide="lock-open" class="w-4 h-4"></i> Unlock Full Report
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            lucide.createIcons();
+            
+            // Animate dashboard
+            setTimeout(() => {
+                const score = 53;
+                document.getElementById('score-gauge').style.strokeDashoffset = 283 - (283 * score / 100);
+                animateNumber('score-val', score);
+                document.querySelectorAll('.progress-bar-fill').forEach(bar => {
+                    bar.style.width = bar.getAttribute('data-val') + '%';
+                });
+            }, 100);
+
+            document.getElementById('unlock-btn').addEventListener('click', renderSuccess);
         }
+
+        function renderMetric(label, val, color) {
+            const colorClass = color === 'blue' ? 'bg-blue-600' : color === 'orange' ? 'bg-orange-500' : 'bg-red-500';
+            return `
+                <div>
+                    <div class="flex justify-between text-[11px] font-bold text-slate-500 mb-1.5 uppercase tracking-widest">
+                        <span>${label}</span>
+                        <span>${val}%</span>
+                    </div>
+                    <div class="progress-bar-container">
+                        <div class="progress-bar-fill ${colorClass}" data-val="${val}"></div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderFinding(text) {
+            return `
+                <div class="finding-item bg-slate-50 border border-slate-100 p-3 rounded-xl text-xs font-semibold text-slate-700">
+                    <i data-lucide="alert-circle" class="w-3 h-3 inline mr-1 text-slate-400"></i> ${text}
+                </div>
+            `;
+        }
+
+        function renderSuccess() {
+            modalContent.classList.remove('max-w-2xl');
+            modalContent.classList.add('max-w-md');
+            modalBody.innerHTML = `
+                <div class="text-center py-10">
+                    <div class="inline-flex items-center justify-center w-20 h-20 rounded-full bg-green-50 text-green-600 mb-8 border-2 border-green-100">
+                        <i data-lucide="mail-check" class="w-10 h-10"></i>
+                    </div>
+                    <h4 class="font-heading font-bold text-slate-900 text-2xl mb-4">Report Dispatched</h4>
+                    <p class="text-slate-500 text-sm font-medium mb-8">The full 18-page reputation breakdown and defense roadmap is being sent to your inbox right now.</p>
+                    <button onclick="closeModal()" class="w-full bg-slate-900 text-white py-4 rounded-xl font-bold hover:bg-slate-800 transition-all shadow-lg">
+                        Return to Site
+                    </button>
+                </div>
+            `;
+            lucide.createIcons();
+        }
+
+        function animateNumber(id, val) {
+            let start = 0;
+            const end = val;
+            const duration = 2000;
+            const obj = document.getElementById(id);
+            const startTime = performance.now();
+            
+            function update(currentTime) {
+                const elapsed = currentTime - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+                const current = Math.floor(progress * end);
+                obj.innerText = current;
+                if (progress < 1) requestAnimationFrame(update);
+            }
+            requestAnimationFrame(update);
+        }
+
+        // Form Submit Handler
+        document.addEventListener('submit', (e) => {
+            if (e.target.id === 'initial-scan-form') {
+                e.preventDefault();
+                renderLoading();
+            }
+        });
 
         openBtns.forEach(btn => btn.addEventListener('click', openModal));
         if(closeBtn) closeBtn.addEventListener('click', closeModal);
@@ -1238,6 +1409,112 @@
                 }
             });
         });
+        // --- STANDALONE TOOL LOGIC ---
+        function renderToolMetric(label, val, color) {
+            const colorClass = color === 'blue' ? 'bg-blue-600' : color === 'orange' ? 'bg-orange-500' : color === 'pink' ? 'bg-pink-500' : 'bg-cyan-500';
+            return `
+                <div>
+                    <div class="flex justify-between text-[11px] font-bold text-slate-500 mb-1.5 uppercase tracking-widest">
+                        <span>${label}</span>
+                        <span>${val}%</span>
+                    </div>
+                    <div class="progress-bar-container">
+                        <div class="progress-bar-fill ${colorClass}" data-val="${val}"></div>
+                    </div>
+                </div>
+            `;
+        }
+
+        const toolAnalyzeBtn = document.getElementById('tool-analyze-btn');
+        const toolEntry = document.getElementById('tool-entry');
+        const toolLoading = document.getElementById('tool-loading');
+        const toolDashboard = document.getElementById('tool-dashboard');
+        const toolSuccess = document.getElementById('tool-success');
+
+        if(toolAnalyzeBtn) {
+            toolAnalyzeBtn.addEventListener('click', () => {
+                toolEntry.classList.add('hidden');
+                toolLoading.classList.remove('hidden');
+                
+                setTimeout(() => {
+                    toolLoading.classList.add('hidden');
+                    toolDashboard.classList.remove('hidden');
+                    document.getElementById('tool-findings').classList.remove('hidden');
+                    document.getElementById('tool-capture').classList.remove('hidden');
+                    
+                    const metricsContainer = document.getElementById('tool-metrics-container');
+                    const findingsGrid = document.getElementById('tool-findings-grid');
+
+                    if(metricsContainer) {
+                        metricsContainer.innerHTML = `
+                            ${renderToolMetric('Search Visibility', 85, 'blue')}
+                            ${renderToolMetric('Sentiment Score', 42, 'orange')}
+                            ${renderToolMetric('Review Rating', 60, 'pink')}
+                            ${renderToolMetric('Content Control', 40, 'blue')}
+                            ${renderToolMetric('Risk Level', 65, 'red')}
+                        `;
+                    }
+
+                    if(findingsGrid) {
+                        findingsGrid.innerHTML = `
+                            ${renderFinding('Glassdoor Negative Sentiment Cluster')}
+                            ${renderFinding('Twitter Thread regarding legacy policy')}
+                            ${renderFinding('Outdated News Archive mapping to current name')}
+                            ${renderFinding('Reddit Mention in high-volatility community')}
+                        `;
+                    }
+                    
+                    lucide.createIcons();
+                    
+                    // Animate score and bars
+                    setTimeout(() => {
+                        const score = 53;
+                        document.getElementById('tool-score-gauge').style.strokeDashoffset = 283 - (283 * score / 100);
+                        animateNumber('tool-score-val', score);
+                        toolDashboard.querySelectorAll('.progress-bar-fill').forEach(bar => {
+                            bar.style.width = bar.getAttribute('data-val') + '%';
+                        });
+                    }, 100);
+                }, 2500);
+            });
+        }
+
+        const toolUnlockBtn = document.getElementById('tool-unlock-btn');
+        if(toolUnlockBtn) {
+            toolUnlockBtn.addEventListener('click', () => {
+                toolDashboard.classList.add('hidden');
+                document.getElementById('tool-findings').classList.add('hidden');
+                document.getElementById('tool-capture').classList.add('hidden');
+                toolSuccess.classList.remove('hidden');
+                lucide.createIcons();
+            });
+        }
+
+        // --- END STANDALONE TOOL LOGIC ---
+
+        // Mobile Menu Logic
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenuOverlay = document.getElementById('mobile-menu-overlay');
+        const closeMobileMenu = document.getElementById('close-mobile-menu');
+        const mobileLinks = mobileMenuOverlay.querySelectorAll('a, button');
+
+        function openMobileMenu() {
+            mobileMenuOverlay.classList.remove('hidden');
+            setTimeout(() => {
+                mobileMenuOverlay.classList.remove('translate-x-full');
+            }, 10);
+        }
+
+        function toggleMobileMenu() {
+            mobileMenuOverlay.classList.add('translate-x-full');
+            setTimeout(() => {
+                mobileMenuOverlay.classList.add('hidden');
+            }, 300);
+        }
+
+        mobileMenuBtn.addEventListener('click', openMobileMenu);
+        closeMobileMenu.addEventListener('click', toggleMobileMenu);
+        mobileLinks.forEach(link => link.addEventListener('click', toggleMobileMenu));
     </script>
 </body>
 </html>
