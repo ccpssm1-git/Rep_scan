@@ -70,8 +70,35 @@
             position: fixed;
             top: 0; left: 0; right: 0; bottom: 0;
             z-index: -2;
-            background: #ffffff; /* Pure White Only */
+            background: linear-gradient(135deg, #f8fafc 0%, #eff6ff 100%);
             overflow: hidden;
+        }
+        .aurora-bg::before, .aurora-bg::after {
+            content: "";
+            position: absolute;
+            width: 800px;
+            height: 800px;
+            border-radius: 50%;
+            filter: blur(140px);
+            opacity: 0.5;
+            z-index: -1;
+            animation: move-aurora 25s infinite alternate ease-in-out;
+            pointer-events: none;
+        }
+        .aurora-bg::before {
+            top: -200px;
+            left: -200px;
+            background: rgba(59, 130, 246, 0.4);
+        }
+        .aurora-bg::after {
+            bottom: -200px;
+            right: -200px;
+            background: rgba(56, 189, 248, 0.2);
+            animation-delay: -10s;
+        }
+        @keyframes move-aurora {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(100px, 100px) scale(1.2); }
         }
 
         .creative-card {
@@ -182,6 +209,107 @@
 </head>
 <body class="antialiased selection:bg-blue-200 overflow-x-hidden">
     <div class="aurora-bg" aria-hidden="true"></div>
+    
+    <!-- 3D Particle Wave Three.js Background -->
+    <canvas id="cyber-bg" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -2; pointer-events: none;"></canvas>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const canvas = document.getElementById('cyber-bg');
+            if (!canvas) return;
+
+            const scene = new THREE.Scene();
+            const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 10000);
+            camera.position.set(0, 400, 1000);
+
+            const renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true, alpha: true });
+            renderer.setPixelRatio(window.devicePixelRatio);
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setClearColor(0xffffff, 0);
+
+            const SEPARATION = 80;
+            const AMOUNTX = 60, AMOUNTY = 60;
+            const numParticles = AMOUNTX * AMOUNTY;
+            const positions = new Float32Array(numParticles * 3);
+            const scales = new Float32Array(numParticles);
+
+            let i = 0, j = 0;
+            for (let ix = 0; ix < AMOUNTX; ix++) {
+                for (let iy = 0; iy < AMOUNTY; iy++) {
+                    positions[i] = ix * SEPARATION - ((AMOUNTX * SEPARATION) / 2);
+                    positions[i + 1] = 0;
+                    positions[i + 2] = iy * SEPARATION - ((AMOUNTY * SEPARATION) / 2);
+                    scales[j] = 1;
+                    i += 3; j++;
+                }
+            }
+
+            const geometry = new THREE.BufferGeometry();
+            geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+            geometry.setAttribute('scale', new THREE.BufferAttribute(scales, 1));
+
+            const material = new THREE.ShaderMaterial({
+                uniforms: { color: { value: new THREE.Color(0x0ea5e9) } },
+                vertexShader: `
+                    attribute float scale;
+                    void main() {
+                        vec4 mvPosition = modelViewMatrix * vec4( position, 1.0 );
+                        gl_PointSize = scale * ( 200.0 / - mvPosition.z );
+                        gl_Position = projectionMatrix * mvPosition;
+                    }
+                `,
+                fragmentShader: `
+                    uniform vec3 color;
+                    void main() {
+                        vec2 xy = gl_PointCoord.xy - vec2(0.5);
+                        float ll = length(xy);
+                        if (ll > 0.5) discard;
+                        gl_FragColor = vec4( color, (0.5 - ll) * 0.8 );
+                    }
+                `,
+                transparent: true, depthWrite: false
+            });
+
+            const particles = new THREE.Points(geometry, material);
+            particles.position.y = -100;
+            particles.position.z = -200;
+            scene.add(particles);
+
+            let mouseX = 0, mouseY = 0, count = 0;
+            document.addEventListener('mousemove', (e) => {
+                mouseX = e.clientX - window.innerWidth / 2;
+                mouseY = e.clientY - window.innerHeight / 2;
+            });
+
+            function animate() {
+                requestAnimationFrame(animate);
+                const pos = particles.geometry.attributes.position.array;
+                const scl = particles.geometry.attributes.scale.array;
+                let i = 0, j = 0;
+                for (let ix = 0; ix < AMOUNTX; ix++) {
+                    for (let iy = 0; iy < AMOUNTY; iy++) {
+                        pos[i + 1] = (Math.sin((ix + count) * 0.3) * 150) + (Math.sin((iy + count) * 0.5) * 150);
+                        scl[j] = (Math.sin((ix + count) * 0.3) + 1) * 15 + (Math.sin((iy + count) * 0.5) + 1) * 15;
+                        i += 3; j++;
+                    }
+                }
+                particles.geometry.attributes.position.needsUpdate = true;
+                particles.geometry.attributes.scale.needsUpdate = true;
+                camera.position.x += (mouseX * 0.1 - camera.position.x) * .05;
+                camera.position.y += (-mouseY * 0.1 - camera.position.y) * .05 + 10;
+                camera.lookAt(scene.position);
+                renderer.render(scene, camera);
+                count += 0.03;
+            }
+            animate();
+            window.addEventListener('resize', () => {
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(window.innerWidth, window.innerHeight);
+            });
+        });
+    </script>
+
     <!-- Fine grain noise overlay for premium texture -->
     <div class="fixed inset-0 z-[-1] opacity-20 pointer-events-none mix-blend-overlay" style="background-image: url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.65%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22/%3E%3C/svg%3E');"></div>
 
